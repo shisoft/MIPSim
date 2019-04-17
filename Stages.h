@@ -8,34 +8,77 @@
 
 #include <cstdint>
 
+typedef int32_t data;
+
 enum Stage {
     IF, ID, EX, MEM, WB
 };
 
-struct IF_ID {
-    int32_t NPC;
-    int32_t IR;
+class IF_ID {
+private:
+    data NPC;
+    data IR;
+public:
+    IF_ID(data npc, data ir);
+
+    data getNpc() const;
+
+    data getIr() const;
 };
 
-struct ID_EX {
-    int32_t A;
-    int32_t B;
-    int32_t IMM;
-    int32_t NPC;
+class ID_EX {
+private:
+    data A;
+    data B;
+    data IMM;
+    data NPC;
+public:
+    ID_EX(data a, data b, data imm, data npc);
+
+    data getA() const;
+
+    data getB() const;
+
+    data getImm() const;
+
+    data getNpc() const;
 };
 
-struct EX_MEM {
-    int32_t cond;
-    int32_t ALUOut;
+class EX_MEM {
+private:
+    data cond;
+    data ALUOut;
+    data IR;
+    data B;
+public:
+    EX_MEM(data cond, data aluOut, data ir, data b);
+
+    data getCond() const;
+
+    data getAluOut() const;
+
+    data getIr() const;
+
+    data getB() const;
 };
 
-struct MEM_WD {
-    int32_t LMD;
-    int32_t ALUOut;
+class MEM_WD {
+private:
+    data LMD;
+    data ALUOut;
+    data IR;
+public:
+    MEM_WD(data lmd, data aluOut, data ir);
+
+    data getLmd() const;
+
+    data getAluOut() const;
+
+    data getIr() const;
 };
 
 class Stages {
-    // define latches
+    // define stage latches
     IF_ID ifId;
     ID_EX idEx;
     EX_MEM exMem;
