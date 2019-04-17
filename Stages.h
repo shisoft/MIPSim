@@ -7,6 +7,7 @@
 
 
 #include <cstdint>
+#include "Instruction.h"
 
 typedef int32_t data;
 
@@ -17,13 +18,13 @@ enum Stage {
 class IF_ID {
 private:
     data NPC;
-    data IR;
+    Instruction IR;
 public:
-    IF_ID(data npc, data ir);
+    IF_ID(data npc, const Instruction &ir);
 
     data getNpc() const;
 
-    data getIr() const;
+    const Instruction &getIr() const;
 };
 
 class ID_EX {
@@ -32,8 +33,9 @@ private:
     data B;
     data IMM;
     data NPC;
+    Instruction IR;
 public:
-    ID_EX(data a, data b, data imm, data npc);
+    ID_EX(data a, data b, data imm, data npc, const Instruction &ir);
 
     data getA() const;
 
@@ -42,39 +44,41 @@ public:
     data getImm() const;
 
     data getNpc() const;
+
+    const Instruction &getIr() const;
 };
 
 class EX_MEM {
 private:
     data cond;
     data ALUOut;
-    data IR;
     data B;
+    Instruction IR;
 public:
-    EX_MEM(data cond, data aluOut, data ir, data b);
+    EX_MEM(data cond, data aluOut, data b, const Instruction &ir);
 
     data getCond() const;
 
     data getAluOut() const;
 
-    data getIr() const;
-
     data getB() const;
+
+    const Instruction &getIr() const;
 };
 
 class MEM_WD {
 private:
     data LMD;
     data ALUOut;
-    data IR;
+    Instruction IR;
 public:
-    MEM_WD(data lmd, data aluOut, data ir);
+    MEM_WD(data lmd, data aluOut, const Instruction &ir);
 
     data getLmd() const;
 
     data getAluOut() const;
 
-    data getIr() const;
+    const Instruction &getIr() const;
 };
 
 class Stages {
