@@ -21,7 +21,7 @@ alu_res ALU::compute(data a, data b, Op op) {
         case NOR:
             return !(a | b);
         case LS:
-            return b << 16;
+            return a << b;
         case NOP:
             return 0;
     }
