@@ -96,15 +96,14 @@ bool Stages::check_data_hazard(reg_num reg, Instruction ins) {
     switch (ins.op()) {
         case 0:
             return reg == ins.rd();
-        case 0b001000u: // addi
-        case 0b100011u: // lw
-        case 0b001111u: // lui
-        case 0b001100u: // andi
-        case 0b001101u: // ori
-        case 0b001010u: // slti
-        case 0b001011u: // sltiu
+        case ADDI:
+        case LW:
+        case LUI:
+        case ANDI:
+        case ORI:
+        case SLTI:
+        case SLTIU:
             return reg == ins.rt();
-        case 0b000100u: // beq, should don't care
         default:
             return false;
     }

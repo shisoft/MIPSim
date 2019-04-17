@@ -4,7 +4,7 @@
 
 #include "ALU.h"
 
-data ALU::compute(data a, data b, Op op) {
+alu_res ALU::compute(data a, data b, Op op) {
     switch (op) {
         case AND:
             return a & b;
@@ -20,5 +20,9 @@ data ALU::compute(data a, data b, Op op) {
             return a < b;
         case NOR:
             return !(a | b);
+        case LS:
+            return b << 16;
+        case NOP:
+            return 0;
     }
 }

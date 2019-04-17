@@ -7,6 +7,8 @@
 
 #include "Stages.h"
 
+typedef int64_t alu_res;
+
 enum Op {
     AND,
     OR,
@@ -14,12 +16,14 @@ enum Op {
     SUB,
     MUL,
     SLT,
-    NOR
+    NOR,
+    LS,
+    NOP
 };
 
 class ALU {
 public:
-    data compute(data a, data b, Op op);
+    alu_res compute(data a, data b, Op op);
 };
 
 
