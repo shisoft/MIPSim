@@ -5,9 +5,21 @@
 #ifndef PROJECT_3_ALU_H
 #define PROJECT_3_ALU_H
 
+#include "Stages.h"
+
+enum Op {
+    AND,
+    OR,
+    ADD,
+    SUB,
+    MUL,
+    SLT,
+    NOR
+};
 
 class ALU {
-
+public:
+    data compute(data a, data b, Op op);
 };
 
 

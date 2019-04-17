@@ -54,16 +54,58 @@ const Instruction &EX_MEM::getIr() const {
     return IR;
 }
 
-MEM_WD::MEM_WD(data lmd, data aluOut, const Instruction &ir) : LMD(lmd), ALUOut(aluOut), IR(ir) {}
+MEM_WB::MEM_WB(data lmd, data aluOut, const Instruction &ir) : LMD(lmd), ALUOut(aluOut), IR(ir) {}
 
-data MEM_WD::getLmd() const {
+data MEM_WB::getLmd() const {
     return LMD;
 }
 
-data MEM_WD::getAluOut() const {
+data MEM_WB::getAluOut() const {
     return ALUOut;
 }
 
-const Instruction &MEM_WD::getIr() const {
+const Instruction &MEM_WB::getIr() const {
     return IR;
+}
+
+void Stages::next_step() {
+
+}
+
+void Stages::proc_WD() {
+
+}
+
+void Stages::proc_MEM() {
+
+}
+
+void Stages::proc_EX() {
+
+}
+
+bool Stages::proc_ID() {
+    return false;
+}
+
+void Stages::proc_IF() {
+
+}
+
+bool Stages::check_data_hazard(reg_num reg, Instruction ins) {
+    switch (ins.op()) {
+        case 0:
+            return reg == ins.rd();
+        case 0b001000u: // addi
+        case 0b100011u: // lw
+        case 0b001111u: // lui
+        case 0b001100u: // andi
+        case 0b001101u: // ori
+        case 0b001010u: // slti
+        case 0b001011u: // sltiu
+            return reg == ins.rt();
+        case 0b000100u: // beq, should don't care
+        default:
+            return false;
+    }
 }

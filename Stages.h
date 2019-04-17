@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include "Instruction.h"
+#include "RegisterFile.h"
 
 typedef int32_t data;
 
@@ -66,13 +67,13 @@ public:
     const Instruction &getIr() const;
 };
 
-class MEM_WD {
+class MEM_WB {
 private:
     data LMD;
     data ALUOut;
     Instruction IR;
 public:
-    MEM_WD(data lmd, data aluOut, const Instruction &ir);
+    MEM_WB(data lmd, data aluOut, const Instruction &ir);
 
     data getLmd() const;
 
@@ -82,11 +83,23 @@ public:
 };
 
 class Stages {
+private:
     // define stage latches
     IF_ID ifId;
     ID_EX idEx;
     EX_MEM exMem;
-    MEM_WD memWd;
+    MEM_WB memWb;
+
+    void proc_WD();
+    void proc_MEM();
+    void proc_EX();
+    // return false if stall
+    bool proc_ID();
+    void proc_IF();
+
+    bool check_data_hazard(reg_num reg, Instruction ins);
+public:
+    void next_step();
 };
 
 

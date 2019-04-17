@@ -12,6 +12,9 @@ typedef uint8_t field;
 typedef int16_t imm;
 typedef int32_t j;
 
+// The simulator should implement the following instructions:
+// add, sub, addi, mul, lw, sw, beq, lui, and, andi, or, ori, sll, srl, slti, and sltiu
+
 class Instruction {
 private:
     uint32_t inst;
