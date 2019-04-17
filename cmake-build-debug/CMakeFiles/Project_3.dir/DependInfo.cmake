@@ -8,8 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/ALUCtl.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/ALUCtl.cpp.o"
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/CPU.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/CPU.cpp.o"
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Control.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/Control.cpp.o"
-  "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/DataMemory.cpp.o"
-  "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/InstructionMemory.cpp.o"
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Memory.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/Memory.cpp.o"
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/PC.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/PC.cpp.o"
   "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/RegisterFile.cpp" "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles/Project_3.dir/RegisterFile.cpp.o"

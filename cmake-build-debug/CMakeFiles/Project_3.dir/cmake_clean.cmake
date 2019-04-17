@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Project_3.dir/ALU.cpp.o"
   "CMakeFiles/Project_3.dir/RegisterFile.cpp.o"
   "CMakeFiles/Project_3.dir/Memory.cpp.o"
-  "CMakeFiles/Project_3.dir/DataMemory.cpp.o"
-  "CMakeFiles/Project_3.dir/InstructionMemory.cpp.o"
   "CMakeFiles/Project_3.dir/PC.cpp.o"
   "CMakeFiles/Project_3.dir/Control.cpp.o"
   "CMakeFiles/Project_3.dir/CPU.cpp.o"

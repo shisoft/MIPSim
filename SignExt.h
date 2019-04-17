@@ -6,8 +6,10 @@
 #define PROJECT_3_SIGNEXT_H
 
 
-class SignExt {
+#include <cstdint>
 
+class SignExt {
+    int32_t extend(int16_t num);
 };
 
 

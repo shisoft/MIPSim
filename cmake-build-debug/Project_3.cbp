@@ -104,18 +104,6 @@
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Control.h">
 			<Option target="Project_3"/>
 		</Unit>
-		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.cpp">
-			<Option target="Project_3"/>
-		</Unit>
-		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.h">
-			<Option target="Project_3"/>
-		</Unit>
-		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.cpp">
-			<Option target="Project_3"/>
-		</Unit>
-		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.h">
-			<Option target="Project_3"/>
-		</Unit>
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Memory.cpp">
 			<Option target="Project_3"/>
 		</Unit>

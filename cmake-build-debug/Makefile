@@ -231,60 +231,6 @@ Control.cpp.s:
 	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/Control.cpp.s
 .PHONY : Control.cpp.s
 
-DataMemory.o: DataMemory.cpp.o
-
-.PHONY : DataMemory.o
-
-# target to build an object file
-DataMemory.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/DataMemory.cpp.o
-.PHONY : DataMemory.cpp.o
-
-DataMemory.i: DataMemory.cpp.i
-
-.PHONY : DataMemory.i
-
-# target to preprocess a source file
-DataMemory.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/DataMemory.cpp.i
-.PHONY : DataMemory.cpp.i
-
-DataMemory.s: DataMemory.cpp.s
-
-.PHONY : DataMemory.s
-
-# target to generate assembly for a file
-DataMemory.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/DataMemory.cpp.s
-.PHONY : DataMemory.cpp.s
-
-InstructionMemory.o: InstructionMemory.cpp.o
-
-.PHONY : InstructionMemory.o
-
-# target to build an object file
-InstructionMemory.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/InstructionMemory.cpp.o
-.PHONY : InstructionMemory.cpp.o
-
-InstructionMemory.i: InstructionMemory.cpp.i
-
-.PHONY : InstructionMemory.i
-
-# target to preprocess a source file
-InstructionMemory.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/InstructionMemory.cpp.i
-.PHONY : InstructionMemory.cpp.i
-
-InstructionMemory.s: InstructionMemory.cpp.s
-
-.PHONY : InstructionMemory.s
-
-# target to generate assembly for a file
-InstructionMemory.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_3.dir/build.make CMakeFiles/Project_3.dir/InstructionMemory.cpp.s
-.PHONY : InstructionMemory.cpp.s
-
 Memory.o: Memory.cpp.o
 
 .PHONY : Memory.o
@@ -441,12 +387,6 @@ help:
 	@echo "... Control.o"
 	@echo "... Control.i"
 	@echo "... Control.s"
-	@echo "... DataMemory.o"
-	@echo "... DataMemory.i"
-	@echo "... DataMemory.s"
-	@echo "... InstructionMemory.o"
-	@echo "... InstructionMemory.i"
-	@echo "... InstructionMemory.s"
 	@echo "... Memory.o"
 	@echo "... Memory.i"
 	@echo "... Memory.s"

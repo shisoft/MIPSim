@@ -109,35 +109,9 @@ CMakeFiles/Project_3.dir/Memory.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_3.dir/Memory.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Memory.cpp" -o CMakeFiles/Project_3.dir/Memory.cpp.s
 
-CMakeFiles/Project_3.dir/DataMemory.cpp.o: CMakeFiles/Project_3.dir/flags.make
-CMakeFiles/Project_3.dir/DataMemory.cpp.o: ../DataMemory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Project_3.dir/DataMemory.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/DataMemory.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.cpp"
-
-CMakeFiles/Project_3.dir/DataMemory.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project_3.dir/DataMemory.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.cpp" > CMakeFiles/Project_3.dir/DataMemory.cpp.i
-
-CMakeFiles/Project_3.dir/DataMemory.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_3.dir/DataMemory.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/DataMemory.cpp" -o CMakeFiles/Project_3.dir/DataMemory.cpp.s
-
-CMakeFiles/Project_3.dir/InstructionMemory.cpp.o: CMakeFiles/Project_3.dir/flags.make
-CMakeFiles/Project_3.dir/InstructionMemory.cpp.o: ../InstructionMemory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Project_3.dir/InstructionMemory.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/InstructionMemory.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.cpp"
-
-CMakeFiles/Project_3.dir/InstructionMemory.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project_3.dir/InstructionMemory.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.cpp" > CMakeFiles/Project_3.dir/InstructionMemory.cpp.i
-
-CMakeFiles/Project_3.dir/InstructionMemory.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_3.dir/InstructionMemory.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/InstructionMemory.cpp" -o CMakeFiles/Project_3.dir/InstructionMemory.cpp.s
-
 CMakeFiles/Project_3.dir/PC.cpp.o: CMakeFiles/Project_3.dir/flags.make
 CMakeFiles/Project_3.dir/PC.cpp.o: ../PC.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Project_3.dir/PC.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Project_3.dir/PC.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/PC.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/PC.cpp"
 
 CMakeFiles/Project_3.dir/PC.cpp.i: cmake_force
@@ -150,7 +124,7 @@ CMakeFiles/Project_3.dir/PC.cpp.s: cmake_force
 
 CMakeFiles/Project_3.dir/Control.cpp.o: CMakeFiles/Project_3.dir/flags.make
 CMakeFiles/Project_3.dir/Control.cpp.o: ../Control.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Project_3.dir/Control.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Project_3.dir/Control.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/Control.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Control.cpp"
 
 CMakeFiles/Project_3.dir/Control.cpp.i: cmake_force
@@ -163,7 +137,7 @@ CMakeFiles/Project_3.dir/Control.cpp.s: cmake_force
 
 CMakeFiles/Project_3.dir/CPU.cpp.o: CMakeFiles/Project_3.dir/flags.make
 CMakeFiles/Project_3.dir/CPU.cpp.o: ../CPU.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Project_3.dir/CPU.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Project_3.dir/CPU.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/CPU.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/CPU.cpp"
 
 CMakeFiles/Project_3.dir/CPU.cpp.i: cmake_force
@@ -176,7 +150,7 @@ CMakeFiles/Project_3.dir/CPU.cpp.s: cmake_force
 
 CMakeFiles/Project_3.dir/SignExt.cpp.o: CMakeFiles/Project_3.dir/flags.make
 CMakeFiles/Project_3.dir/SignExt.cpp.o: ../SignExt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Project_3.dir/SignExt.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Project_3.dir/SignExt.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/SignExt.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/SignExt.cpp"
 
 CMakeFiles/Project_3.dir/SignExt.cpp.i: cmake_force
@@ -189,7 +163,7 @@ CMakeFiles/Project_3.dir/SignExt.cpp.s: cmake_force
 
 CMakeFiles/Project_3.dir/ALUCtl.cpp.o: CMakeFiles/Project_3.dir/flags.make
 CMakeFiles/Project_3.dir/ALUCtl.cpp.o: ../ALUCtl.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Project_3.dir/ALUCtl.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Project_3.dir/ALUCtl.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_3.dir/ALUCtl.cpp.o -c "/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/ALUCtl.cpp"
 
 CMakeFiles/Project_3.dir/ALUCtl.cpp.i: cmake_force
@@ -206,8 +180,6 @@ Project_3_OBJECTS = \
 "CMakeFiles/Project_3.dir/ALU.cpp.o" \
 "CMakeFiles/Project_3.dir/RegisterFile.cpp.o" \
 "CMakeFiles/Project_3.dir/Memory.cpp.o" \
-"CMakeFiles/Project_3.dir/DataMemory.cpp.o" \
-"CMakeFiles/Project_3.dir/InstructionMemory.cpp.o" \
 "CMakeFiles/Project_3.dir/PC.cpp.o" \
 "CMakeFiles/Project_3.dir/Control.cpp.o" \
 "CMakeFiles/Project_3.dir/CPU.cpp.o" \
@@ -221,8 +193,6 @@ Project_3: CMakeFiles/Project_3.dir/main.cpp.o
 Project_3: CMakeFiles/Project_3.dir/ALU.cpp.o
 Project_3: CMakeFiles/Project_3.dir/RegisterFile.cpp.o
 Project_3: CMakeFiles/Project_3.dir/Memory.cpp.o
-Project_3: CMakeFiles/Project_3.dir/DataMemory.cpp.o
-Project_3: CMakeFiles/Project_3.dir/InstructionMemory.cpp.o
 Project_3: CMakeFiles/Project_3.dir/PC.cpp.o
 Project_3: CMakeFiles/Project_3.dir/Control.cpp.o
 Project_3: CMakeFiles/Project_3.dir/CPU.cpp.o
@@ -230,7 +200,7 @@ Project_3: CMakeFiles/Project_3.dir/SignExt.cpp.o
 Project_3: CMakeFiles/Project_3.dir/ALUCtl.cpp.o
 Project_3: CMakeFiles/Project_3.dir/build.make
 Project_3: CMakeFiles/Project_3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable Project_3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable Project_3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Project_3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
