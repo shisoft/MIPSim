@@ -5,7 +5,6 @@
 #ifndef PROJECT_3_ALUCTL_H
 #define PROJECT_3_ALUCTL_H
 
-
 class ALUCtl {
 
 };

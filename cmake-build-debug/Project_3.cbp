@@ -104,6 +104,12 @@
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Control.h">
 			<Option target="Project_3"/>
 		</Unit>
+		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Instruction.cpp">
+			<Option target="Project_3"/>
+		</Unit>
+		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Instruction.h">
+			<Option target="Project_3"/>
+		</Unit>
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Memory.cpp">
 			<Option target="Project_3"/>
 		</Unit>
@@ -126,6 +132,12 @@
 			<Option target="Project_3"/>
 		</Unit>
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/SignExt.h">
+			<Option target="Project_3"/>
+		</Unit>
+		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Stages.cpp">
+			<Option target="Project_3"/>
+		</Unit>
+		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/Stages.h">
 			<Option target="Project_3"/>
 		</Unit>
 		<Unit filename="/Users/shisoft/Documents/IdeaProjects/ECE697/Project 3/main.cpp">

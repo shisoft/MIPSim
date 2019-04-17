@@ -8,7 +8,7 @@
 
 #include <cstdint>
 
-typedef int32_t count;
+typedef int64_t count;
 
 class PC {
 private:
