@@ -6,8 +6,17 @@
 #define PROJECT_3_PC_H
 
 
-class PC {
+#include <cstdint>
 
+typedef int32_t count;
+
+class PC {
+private:
+    count counter;
+public:
+    count get();
+    void set(count c);
+    void next();
 };
 
 
