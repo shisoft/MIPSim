@@ -16,7 +16,7 @@ class RegisterFile {
 private:
      reg_dat cells[32];
 public:
-    std::tuple<reg_dat, reg_dat> read_reg(reg_num reg1, reg_num reg2);
+    reg_dat read_reg(reg_num reg1);
     void write_reg(reg_num reg_n, reg_dat data);
 };
 

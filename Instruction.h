@@ -38,6 +38,7 @@ public:
     field rd();
     field shamt();
     field funt();
+    field dest_reg();
     imm imme();
     j target();
 };

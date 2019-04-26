@@ -69,18 +69,6 @@ const Instruction &MEM_WB::getIr() const {
 }
 
 bool StageLatchess::check_data_hazard(reg_num reg, Instruction ins) {
-    switch (ins.op()) {
-        case 0:
-            return reg == ins.rd();
-        case ADDI:
-        case LW:
-        case LUI:
-        case ANDI:
-        case ORI:
-        case SLTI:
-        case SLTIU:
-            return reg == ins.rt();
-        default:
-            return false;
-    }
+    auto target = ins.dest_reg();
+    return target != 0 && target == reg;
 }

@@ -13,7 +13,9 @@ public:
     void next_step();
 private:
     StageLatchess stage_latches;
-    void proc_WD();
+    bool ctlStall; // stall due to control hazard
+
+    void proc_WB();
     void proc_MEM();
     void proc_EX();
     // return false if stall

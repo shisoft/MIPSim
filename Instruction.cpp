@@ -37,3 +37,20 @@ imm Instruction::imme() {
 j Instruction::target() {
     return (j) (this->inst | 0b1111'1111'1111'1111'1111'1111'11u);
 }
+
+field Instruction::dest_reg() {
+    switch (this->op()) {
+        case 0:
+            return this->rd();
+        case ADDI:
+        case LW:
+        case LUI:
+        case ANDI:
+        case ORI:
+        case SLTI:
+        case SLTIU:
+            return this->rt();
+        default:
+            return 0;
+    }
+}

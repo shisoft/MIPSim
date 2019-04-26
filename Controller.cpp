@@ -8,8 +8,8 @@ void Controller::next_step() {
 
 }
 
-void Controller::proc_WD() {
-
+void Controller::proc_WB() {
+    
 }
 
 void Controller::proc_MEM() {
