@@ -2,8 +2,8 @@
 // Created by 施昊 on 2019-04-17.
 //
 
-#ifndef PROJECT_3_STAGES_H
-#define PROJECT_3_STAGES_H
+#ifndef PROJECT_3_STAGELATCHESS_H
+#define PROJECT_3_STAGELATCHESS_H
 
 
 #include <cstdint>
@@ -82,25 +82,16 @@ public:
     const Instruction &getIr() const;
 };
 
-class Stages {
-private:
+class StageLatchess {
+public:
     // define stage latches
     IF_ID ifId;
     ID_EX idEx;
     EX_MEM exMem;
     MEM_WB memWb;
 
-    void proc_WD();
-    void proc_MEM();
-    void proc_EX();
-    // return false if stall
-    bool proc_ID();
-    void proc_IF();
-
     bool check_data_hazard(reg_num reg, Instruction ins);
-public:
-    void next_step();
 };
 
 
-#endif //PROJECT_3_STAGES_H
+#endif //PROJECT_3_STAGELATCHESS_H

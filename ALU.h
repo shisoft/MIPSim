@@ -5,7 +5,7 @@
 #ifndef PROJECT_3_ALU_H
 #define PROJECT_3_ALU_H
 
-#include "Stages.h"
+#include "StageLatchess.h"
 
 typedef int64_t alu_res;
 

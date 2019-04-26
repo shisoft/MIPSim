@@ -2,7 +2,7 @@
 // Created by 施昊 on 2019-04-17.
 //
 
-#include "Stages.h"
+#include "StageLatchess.h"
 
 IF_ID::IF_ID(data npc, const Instruction &ir) : NPC(npc), IR(ir) {}
 
@@ -68,31 +68,7 @@ const Instruction &MEM_WB::getIr() const {
     return IR;
 }
 
-void Stages::next_step() {
-
-}
-
-void Stages::proc_WD() {
-
-}
-
-void Stages::proc_MEM() {
-
-}
-
-void Stages::proc_EX() {
-
-}
-
-bool Stages::proc_ID() {
-    return false;
-}
-
-void Stages::proc_IF() {
-
-}
-
-bool Stages::check_data_hazard(reg_num reg, Instruction ins) {
+bool StageLatchess::check_data_hazard(reg_num reg, Instruction ins) {
     switch (ins.op()) {
         case 0:
             return reg == ins.rd();
