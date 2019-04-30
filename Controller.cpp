@@ -99,6 +99,9 @@ void Controller::proc_EX() {
         // rt is originally reserved for result in immediate instructions
         // in branching will be used for comparison
         alu_b = ins.rt();
+    } else if (ins_op == LUI){
+        alu_a = latch.getImm();
+        alu_b = 16;
     } else if (ins.is_imm()) {
         alu_b = latch.getImm();
     } else {
@@ -128,9 +131,6 @@ bool Controller::proc_ID() {
         auto reg_b = ins.rt();
         if (this->has_data_hazard(reg_b)) return false;
         dat_b = this->registerFile.read_reg(reg_b);
-    }
-    if (ins.op() == LUI) {
-        dat_a = 16;
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     if (ins.op() == BEQ) {
