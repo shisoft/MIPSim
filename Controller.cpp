@@ -75,8 +75,8 @@ void Controller::proc_MEM() {
             this->data_memory.write(alu_res_dat, latch.getB());
             break;
         case BEQ:
-            // Branch EQual, should set program counter to cond in latch
-            this->pc.set(latch.getCond());
+            // Branch EQual, when ALU result == 0 which indicates equal, should set program counter to cond in latch
+            if (alu_res == 0) this->pc.set(latch.getCond());
             // unset the control stall flag, so the IF stage will be enabled in next cycle
             this->ctl_stall = false;
             break;
@@ -106,7 +106,7 @@ void Controller::proc_EX() {
     }
     auto alu_op = this->alu_ctl.decode(ins);
     auto alu_out = this->alu.compute(alu_a, alu_b, alu_op);
-    auto cond = alu_out == 0 ? ins.imme() + latch.getNpc() : latch.getNpc();
+    auto cond = latch.getNpc() + latch.getImm();
     // special case for branch, we don't multiply the imm by 4 because the
     // instruction memory line is exactly 32 bit, 4 bytes
     this->stage_latches.exMem = EX_MEM(cond, alu_out, latch.getB(), ins);
@@ -117,6 +117,8 @@ bool Controller::proc_ID() {
     if (this->ctl_stall) return false;
     auto latch = this->stage_latches.ifId;
     auto ins = latch.getIr();
+    // return true when nop, this will force PC to increase in IF stage and reach inst_len sooner or later
+    if (ins.is_nop()) return true;
     auto reg_a = ins.rs();
     if (this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
