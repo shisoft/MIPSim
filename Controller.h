@@ -8,6 +8,7 @@
 
 #include "StageLatchess.h"
 #include "PC.h"
+#include "Memory.h"
 
 class Controller {
 public:
@@ -16,6 +17,7 @@ private:
     StageLatchess stage_latches;
     PC pc;
     RegisterFile registerFile;
+    Memory data_memory;
     bool ctlStall; // stall due to control hazard
 
     void proc_WB();
