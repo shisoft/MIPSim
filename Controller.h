@@ -12,10 +12,12 @@
 #include "ALUCtl.h"
 
 typedef uint64_t cycles;
+typedef uint32_t inst_len;
 
 class Controller {
 public:
     void next_step();
+    bool ended();
     bool has_data_hazard(reg_num reg);
 private:
     StageLatchess stage_latches;
@@ -26,6 +28,7 @@ private:
     ALU alu;
     ALUCtl alu_ctl;
     cycles clock;
+    inst_len inst_length;
     bool ctl_stall; // stall due to control hazard
 
     void proc_WB();

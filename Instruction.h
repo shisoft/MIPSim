@@ -55,7 +55,7 @@ public:
     bool is_imm();
 
     void set_nop();
-    bool is_nop();
+    bool is_nop() const;
 };
 
 

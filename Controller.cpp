@@ -22,10 +22,9 @@ void Controller::next_step() {
 
 bool Controller::has_data_hazard(reg_num reg) {
     auto latches = this->stage_latches;
-    return
-    latches.check_reg_data_hazard(reg, latches.memWb.getIr()) ||
-    latches.check_reg_data_hazard(reg, latches.exMem.getIr()) ||
-    latches.check_reg_data_hazard(reg, latches.idEx.getIr());
+    return latches.check_reg_data_hazard(reg, latches.memWb.getIr()) ||
+           latches.check_reg_data_hazard(reg, latches.exMem.getIr()) ||
+           latches.check_reg_data_hazard(reg, latches.idEx.getIr());
 }
 
 void Controller::proc_WB() {
@@ -148,4 +147,13 @@ void Controller::proc_IF() {
 
 cycles Controller::clock_cycles() {
     return this->clock;
+}
+
+bool Controller::ended() {
+    auto latches = this->stage_latches;
+    return latches.ifId.getIr().is_nop() &&
+           latches.idEx.getIr().is_nop() &&
+           latches.exMem.getIr().is_nop() &&
+           latches.memWb.getIr().is_nop() &&
+           this->pc.get() >= this->inst_length;
 }

@@ -63,6 +63,6 @@ void Instruction::set_nop() {
     this->inst = NOP_INST;
 }
 
-bool Instruction::is_nop() {
+bool Instruction::is_nop() const {
     return this->inst == NOP_INST;
 }
