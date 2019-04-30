@@ -13,10 +13,6 @@ void Controller::next_step() {
 
 }
 
-void Controller::proc_IF() {
-
-}
-
 bool Controller::has_data_hazard(reg_num reg) {
     auto latches = this->stage_latches;
     return
@@ -106,7 +102,6 @@ void Controller::proc_EX() {
 bool Controller::proc_ID() {
     auto latch = this->stage_latches.ifId;
     auto ins = latch.getIr();
-    auto ins_op = ins.op();
     auto reg_a = ins.rs();
     if (this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
@@ -119,4 +114,13 @@ bool Controller::proc_ID() {
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     return true;
+}
+
+void Controller::proc_IF() {
+    auto npc = this->pc.get();
+    auto ins = this->inst_memory.read(npc);
+    this->stage_latches.ifId = IF_ID(npc, ins);
+    // plus one for the memory is 32 bit 4 byte each line
+    npc++;
+    this->pc.set(npc);
 }

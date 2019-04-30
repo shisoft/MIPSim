@@ -20,6 +20,7 @@ private:
     PC pc;
     RegisterFile registerFile;
     Memory data_memory;
+    Memory inst_memory;
     ALU alu;
     ALUCtl alu_ctl;
     bool ctlStall; // stall due to control hazard
