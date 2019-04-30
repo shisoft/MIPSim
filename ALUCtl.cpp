@@ -4,7 +4,9 @@
 
 #include "ALUCtl.h"
 
-Op ALUCtl::decode(field op, field funct) {
+Op ALUCtl::decode(Instruction ins) {
+    auto op = ins.op();
+    auto funct = ins.funt();
     switch (op) {
         case 0:
             switch (funct) {

@@ -9,7 +9,7 @@
 
 class ALUCtl {
 public:
-    Op decode(field op, field funct);
+    Op decode(Instruction ins);
 };
 
 

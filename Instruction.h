@@ -49,6 +49,7 @@ public:
     j target();
 
     field dest_reg();
+    bool is_imm();
 };
 
 

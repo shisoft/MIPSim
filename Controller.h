@@ -9,6 +9,7 @@
 #include "StageLatchess.h"
 #include "PC.h"
 #include "Memory.h"
+#include "ALUCtl.h"
 
 class Controller {
 public:
@@ -18,6 +19,8 @@ private:
     PC pc;
     RegisterFile registerFile;
     Memory data_memory;
+    ALU alu;
+    ALUCtl alu_ctl;
     bool ctlStall; // stall due to control hazard
 
     void proc_WB();

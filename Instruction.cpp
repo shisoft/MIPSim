@@ -39,18 +39,22 @@ j Instruction::target() {
 }
 
 field Instruction::dest_reg() {
+    auto op = this->op();
+    return op == 0 ? this->rd() : this->is_imm() ? this->rt() : 0;
+}
+
+bool Instruction::is_imm() {
     switch (this->op()) {
-        case 0:
-            return this->rd();
-        case ADDI:
         case LW:
+        case SW:
+        case ADDI:
         case LUI:
         case ANDI:
         case ORI:
         case SLTI:
         case SLTIU:
-            return this->rt();
+            return true;
         default:
-            return 0;
+            return false;
     }
 }
