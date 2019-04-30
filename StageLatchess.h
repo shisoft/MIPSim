@@ -9,8 +9,7 @@
 #include <cstdint>
 #include "Instruction.h"
 #include "RegisterFile.h"
-
-typedef int32_t data;
+#include "ALU.h"
 
 enum Stage {
     IF, ID, EX, MEM, WB
@@ -18,66 +17,66 @@ enum Stage {
 
 class IF_ID {
 private:
-    data NPC;
+    p_count NPC;
     Instruction IR;
 public:
-    IF_ID(data npc, const Instruction &ir);
+    IF_ID(reg_dat npc, const Instruction &ir);
 
-    data getNpc() const;
+    reg_dat getNpc() const;
 
     const Instruction &getIr() const;
 };
 
 class ID_EX {
 private:
-    data A;
-    data B;
-    data IMM;
-    data NPC;
+    reg_dat A;
+    reg_dat B;
+    reg_dat IMM;
+    p_count NPC;
     Instruction IR;
 public:
-    ID_EX(data a, data b, data imm, data npc, const Instruction &ir);
+    ID_EX(reg_dat a, reg_dat b, reg_dat imm, p_count npc, const Instruction &ir);
 
-    data getA() const;
+    reg_dat getA() const;
 
-    data getB() const;
+    reg_dat getB() const;
 
-    data getImm() const;
+    reg_dat getImm() const;
 
-    data getNpc() const;
+    p_count getNpc() const;
 
     const Instruction &getIr() const;
 };
 
 class EX_MEM {
 private:
-    data cond;
-    data ALUOut;
-    data B;
+    reg_dat cond;
+    alu_res ALUOut;
+    reg_dat B;
     Instruction IR;
 public:
-    EX_MEM(data cond, data aluOut, data b, const Instruction &ir);
+    EX_MEM(reg_dat cond, alu_res aluOut, reg_dat b, const Instruction &ir);
 
-    data getCond() const;
+    reg_dat getCond() const;
 
-    data getAluOut() const;
+    alu_res getAluOut() const;
 
-    data getB() const;
+    reg_dat getB() const;
 
-    const Instruction &getIr() const;
+    Instruction getIr() const;
 };
 
 class MEM_WB {
 private:
-    data LMD;
-    data ALUOut;
+    reg_dat LMD;
+    alu_res ALUOut;
     Instruction IR;
 public:
-    MEM_WB(data lmd, data aluOut, const Instruction &ir);
+    MEM_WB(reg_dat lmd, alu_res aluOut, const Instruction &ir);
 
-    data getLmd() const;
+    reg_dat getLmd() const;
 
-    data getAluOut() const;
+    alu_res getAluOut() const;
 
     const Instruction &getIr() const;
 };

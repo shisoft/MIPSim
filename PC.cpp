@@ -4,11 +4,11 @@
 
 #include "PC.h"
 
-count PC::get() {
+p_count PC::get() {
     return this->counter;
 }
 
-void PC::set(count c) {
+void PC::set(p_count c) {
     this->counter = c;
 }
 

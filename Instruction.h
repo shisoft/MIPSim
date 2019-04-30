@@ -7,10 +7,7 @@
 
 
 #include <cstdint>
-
-typedef uint8_t field;
-typedef int16_t imm;
-typedef int32_t j;
+#include "wires.h"
 
 // The simulator should implement the following instructions:
 // add, sub, addi, mul, lw, sw, beq, lui, and, andi, or, ori, sll, srl, slti, and sltiu
@@ -27,6 +24,16 @@ enum OpCode {
     SLTIU = 0b001011u,
 };
 
+enum FunctCode {
+    ADD = 0b100000u,
+    SUB = 0b100010u,
+    MUL = 0b011000u,
+    AND = 0b100100u,
+    OR = 0b100101u,
+    NOR = 0b100111u,
+    SLT = 0b101010u
+};
+
 class Instruction {
 private:
     uint32_t inst;
@@ -38,9 +45,10 @@ public:
     field rd();
     field shamt();
     field funt();
-    field dest_reg();
     imm imme();
     j target();
+
+    field dest_reg();
 };
 
 

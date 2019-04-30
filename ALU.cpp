@@ -4,25 +4,25 @@
 
 #include "ALU.h"
 
-alu_res ALU::compute(data a, data b, Op op) {
+alu_res ALU::compute(reg_dat a, reg_dat b, Op op) {
     switch (op) {
-        case AND:
+        case ALU_AND:
             return a & b;
-        case OR:
+        case ALU_OR:
             return a | b;
-        case ADD:
+        case ALU_ADD:
             return a + b;
-        case SUB:
+        case ALU_SUB:
             return a - b;
-        case MUL:
+        case ALU_MUL:
             return a * b;
-        case SLT:
+        case ALU_SLT:
             return a < b;
-        case NOR:
+        case ALU_NOR:
             return !(a | b);
-        case LS:
+        case ALU_LS:
             return a << b;
-        case NOP:
+        case ALU_NOP:
             return 0;
     }
 }

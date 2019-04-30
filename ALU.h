@@ -6,24 +6,24 @@
 #define PROJECT_3_ALU_H
 
 #include "StageLatchess.h"
+#include "wires.h"
 
-typedef int64_t alu_res;
 
 enum Op {
-    AND,
-    OR,
-    ADD,
-    SUB,
-    MUL,
-    SLT,
-    NOR,
-    LS,
-    NOP
+    ALU_AND,
+    ALU_OR,
+    ALU_ADD,
+    ALU_SUB,
+    ALU_MUL,
+    ALU_SLT,
+    ALU_NOR,
+    ALU_LS,
+    ALU_NOP
 };
 
 class ALU {
 public:
-    alu_res compute(data a, data b, Op op);
+    alu_res compute(reg_dat a, reg_dat b, Op op);
 };
 
 

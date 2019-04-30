@@ -4,9 +4,9 @@
 
 #include "StageLatchess.h"
 
-IF_ID::IF_ID(data npc, const Instruction &ir) : NPC(npc), IR(ir) {}
+IF_ID::IF_ID(p_count npc, const Instruction &ir) : NPC(npc), IR(ir) {}
 
-data IF_ID::getNpc() const {
+p_count IF_ID::getNpc() const {
     return NPC;
 }
 
@@ -14,21 +14,21 @@ const Instruction &IF_ID::getIr() const {
     return IR;
 }
 
-ID_EX::ID_EX(data a, data b, data imm, data npc, const Instruction &ir) : A(a), B(b), IMM(imm), NPC(npc), IR(ir) {}
+ID_EX::ID_EX(reg_dat a, reg_dat b, reg_dat imm, p_count npc, const Instruction &ir) : A(a), B(b), IMM(imm), NPC(npc), IR(ir) {}
 
-data ID_EX::getA() const {
+reg_dat ID_EX::getA() const {
     return A;
 }
 
-data ID_EX::getB() const {
+reg_dat ID_EX::getB() const {
     return B;
 }
 
-data ID_EX::getImm() const {
+reg_dat ID_EX::getImm() const {
     return IMM;
 }
 
-data ID_EX::getNpc() const {
+p_count ID_EX::getNpc() const {
     return NPC;
 }
 
@@ -36,31 +36,31 @@ const Instruction &ID_EX::getIr() const {
     return IR;
 }
 
-EX_MEM::EX_MEM(data cond, data aluOut, data b, const Instruction &ir) : cond(cond), ALUOut(aluOut), B(b), IR(ir) {}
+EX_MEM::EX_MEM(reg_dat cond, alu_res aluOut, reg_dat b, const Instruction &ir) : cond(cond), ALUOut(aluOut), B(b), IR(ir) {}
 
-data EX_MEM::getCond() const {
+reg_dat EX_MEM::getCond() const {
     return cond;
 }
 
-data EX_MEM::getAluOut() const {
+alu_res EX_MEM::getAluOut() const {
     return ALUOut;
 }
 
-data EX_MEM::getB() const {
+reg_dat EX_MEM::getB() const {
     return B;
 }
 
-const Instruction &EX_MEM::getIr() const {
+Instruction EX_MEM::getIr() const {
     return IR;
 }
 
-MEM_WB::MEM_WB(data lmd, data aluOut, const Instruction &ir) : LMD(lmd), ALUOut(aluOut), IR(ir) {}
+MEM_WB::MEM_WB(reg_dat lmd, alu_res aluOut, const Instruction &ir) : LMD(lmd), ALUOut(aluOut), IR(ir) {}
 
-data MEM_WB::getLmd() const {
+reg_dat MEM_WB::getLmd() const {
     return LMD;
 }
 
-data MEM_WB::getAluOut() const {
+alu_res MEM_WB::getAluOut() const {
     return ALUOut;
 }
 

@@ -8,9 +8,7 @@
 
 #include <cstdint>
 #include <tuple>
-
-typedef int_fast32_t reg_dat;
-typedef int8_t reg_num;
+#include "wires.h"
 
 class RegisterFile {
 private:

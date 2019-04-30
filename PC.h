@@ -7,15 +7,14 @@
 
 
 #include <cstdint>
-
-typedef int64_t count;
+#include "wires.h"
 
 class PC {
 private:
-    count counter;
+    p_count counter;
 public:
-    count get();
-    void set(count c);
+    p_count get();
+    void set(p_count c);
     void next();
 };
 

@@ -6,9 +6,7 @@
 #define PROJECT_3_MEMORY_H
 
 #include <cstdint>
-
-typedef int32_t addr;
-typedef int32_t line;
+#include "wires.h"
 
 class Memory {
 private:

@@ -7,12 +7,15 @@
 
 
 #include "StageLatchess.h"
+#include "PC.h"
 
 class Controller {
 public:
     void next_step();
 private:
     StageLatchess stage_latches;
+    PC pc;
+    RegisterFile registerFile;
     bool ctlStall; // stall due to control hazard
 
     void proc_WB();

@@ -8,20 +8,20 @@ Op ALUCtl::decode(field op, field funct) {
     switch (op) {
         case 0:
             switch (funct) {
-                case 0b100000u:
-                    return ADD;
-                case 0b100010u:
-                    return SUB;
-                case 0b011000u:
-                    return MUL;
-                case 0b100100u:
-                    return AND;
-                case 0b100101u:
-                    return OR;
-                case 0b100111u:
-                    return NOR;
-                case 0b101010u:
-                    return SLT;
+                case ADD:
+                    return ALU_ADD;
+                case SUB:
+                    return ALU_SUB;
+                case MUL:
+                    return ALU_MUL;
+                case AND:
+                    return ALU_AND;
+                case OR:
+                    return ALU_OR;
+                case NOR:
+                    return ALU_NOR;
+                case SLT:
+                    return ALU_SLT;
                 default:
                     throw;
             }
@@ -29,18 +29,18 @@ Op ALUCtl::decode(field op, field funct) {
         case ADDI:
         case LW:
         case SW:
-            return ADD;
+            return ALU_ADD;
         case BEQ:
-            return SUB;
+            return ALU_SUB;
         case LUI:
-            return LS;
+            return ALU_LS;
         case SLTI:
         case SLTIU:
-            return SLT;
+            return ALU_SLT;
         case ANDI:
-            return AND;
+            return ALU_AND;
         case ORI:
-            return OR;
+            return ALU_OR;
         default:
             throw;
     }
