@@ -23,7 +23,7 @@ private:
     Memory inst_memory;
     ALU alu;
     ALUCtl alu_ctl;
-    bool ctlStall; // stall due to control hazard
+    bool ctl_stall; // stall due to control hazard
 
     void proc_WB();
     void proc_MEM();

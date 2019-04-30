@@ -12,6 +12,8 @@
 // The simulator should implement the following instructions:
 // add, sub, addi, mul, lw, sw, beq, lui, and, andi, or, ori, sll, srl, slti, and sltiu
 
+const uint32_t NOP_INST = 0;
+
 enum OpCode {
     ADDI = 0b001000u,
     LW = 0b100011u,
@@ -22,6 +24,7 @@ enum OpCode {
     ORI = 0b001101u,
     SLTI = 0b001010u,
     SLTIU = 0b001011u,
+    NOP = 0b111111u
 };
 
 enum FunctCode {
@@ -50,6 +53,9 @@ public:
 
     field dest_reg();
     bool is_imm();
+
+    void set_nop();
+    bool is_nop();
 };
 
 

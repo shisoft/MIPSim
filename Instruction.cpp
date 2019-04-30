@@ -58,3 +58,11 @@ bool Instruction::is_imm() {
             return false;
     }
 }
+
+void Instruction::set_nop() {
+    this->inst = NOP_INST;
+}
+
+bool Instruction::is_nop() {
+    return this->inst == NOP_INST;
+}

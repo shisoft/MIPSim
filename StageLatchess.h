@@ -25,6 +25,8 @@ public:
     reg_dat getNpc() const;
 
     const Instruction &getIr() const;
+
+    void set_nop();
 };
 
 class ID_EX {
@@ -46,6 +48,8 @@ public:
     p_count getNpc() const;
 
     const Instruction &getIr() const;
+
+    void set_nop();
 };
 
 class EX_MEM {
@@ -64,6 +68,8 @@ public:
     reg_dat getB() const;
 
     Instruction getIr() const;
+
+    void set_nop();
 };
 
 class MEM_WB {
@@ -79,6 +85,8 @@ public:
     alu_res getAluOut() const;
 
     const Instruction &getIr() const;
+
+    void set_nop();
 };
 
 class StageLatchess {

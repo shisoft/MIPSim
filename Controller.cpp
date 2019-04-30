@@ -10,7 +10,12 @@ reg_dat alu_res_to_dat(alu_res alu_res) {
 }
 
 void Controller::next_step() {
-
+    // process the pipeline, from the last to the first
+    this->proc_WB();
+    this->proc_MEM();
+    this->proc_EX();
+    if (this->proc_ID()) return;
+    this->proc_IF();
 }
 
 bool Controller::has_data_hazard(reg_num reg) {
@@ -24,6 +29,7 @@ bool Controller::has_data_hazard(reg_num reg) {
 void Controller::proc_WB() {
     auto latch = this->stage_latches.memWb;
     auto ins = latch.getIr();
+    if (ins.is_nop()) return;
     auto target = ins.dest_reg();
     auto dat_write = 0;
     switch (ins.op()) {
@@ -48,11 +54,13 @@ void Controller::proc_WB() {
             break;
     }
     this->registerFile.write_reg(target, dat_write);
+    latch.set_nop();
 }
 
 void Controller::proc_MEM() {
     auto latch = this->stage_latches.exMem;
     auto ins = latch.getIr();
+    if (ins.is_nop()) return;
     auto alu_res = latch.getAluOut();
     auto alu_res_dat = alu_res_to_dat(alu_res);
     auto mem_res = 0;
@@ -68,14 +76,18 @@ void Controller::proc_MEM() {
         case BEQ:
             // Branch EQual, should set program counter to cond in latch
             this->pc.set(latch.getCond());
+            // unset the control stall flag, so the IF stage will be enabled in next cycle
+            this->ctl_stall = false;
             break;
     }
     this->stage_latches.memWb = MEM_WB(mem_res, alu_res, ins);
+    latch.set_nop();
 }
 
 void Controller::proc_EX() {
     auto latch = this->stage_latches.idEx;
     auto ins = latch.getIr();
+    if (ins.is_nop()) return;
     auto ins_op = ins.op();
     auto latch_a = latch.getA();
     auto latch_b = latch.getB();
@@ -97,9 +109,11 @@ void Controller::proc_EX() {
     // special case for branch, we don't multiply the imm by 4 because the
     // instruction memory line is exactly 32 bit, 4 bytes
     this->stage_latches.exMem = EX_MEM(cond, alu_out, latch.getB(), ins);
+    latch.set_nop();
 }
 
 bool Controller::proc_ID() {
+    if (this->ctl_stall) return false;
     auto latch = this->stage_latches.ifId;
     auto ins = latch.getIr();
     auto reg_a = ins.rs();
@@ -113,10 +127,15 @@ bool Controller::proc_ID() {
         dat_b = this->registerFile.read_reg(reg_b);
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
+    if (ins.op() == BEQ) {
+        this->ctl_stall = true;
+    }
+    latch.set_nop();
     return true;
 }
 
 void Controller::proc_IF() {
+    if (this->ctl_stall) return;
     auto npc = this->pc.get();
     auto ins = this->inst_memory.read(npc);
     this->stage_latches.ifId = IF_ID(npc, ins);
