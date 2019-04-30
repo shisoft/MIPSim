@@ -11,6 +11,8 @@
 #include "Memory.h"
 #include "ALUCtl.h"
 
+typedef uint64_t cycles;
+
 class Controller {
 public:
     void next_step();
@@ -23,6 +25,7 @@ private:
     Memory inst_memory;
     ALU alu;
     ALUCtl alu_ctl;
+    cycles clock;
     bool ctl_stall; // stall due to control hazard
 
     void proc_WB();
@@ -31,6 +34,7 @@ private:
     // return false if stall
     bool proc_ID();
     void proc_IF();
+    cycles clock_cycles();
 };
 
 

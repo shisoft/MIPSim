@@ -10,6 +10,8 @@ reg_dat alu_res_to_dat(alu_res alu_res) {
 }
 
 void Controller::next_step() {
+    // increase the clock cycle
+    this->clock++;
     // process the pipeline, from the last to the first
     this->proc_WB();
     this->proc_MEM();
@@ -142,4 +144,8 @@ void Controller::proc_IF() {
     // plus one for the memory is 32 bit 4 byte each line
     npc++;
     this->pc.set(npc);
+}
+
+cycles Controller::clock_cycles() {
+    return this->clock;
 }
