@@ -14,6 +14,7 @@
 class Controller {
 public:
     void next_step();
+    bool has_data_hazard(reg_num reg);
 private:
     StageLatchess stage_latches;
     PC pc;

@@ -3,6 +3,7 @@
 //
 
 #include "Controller.h"
+#include "SignExt.h"
 
 reg_dat alu_res_to_dat(alu_res alu_res) {
     return alu_res & 0xFFFFFFFF;
@@ -12,13 +13,16 @@ void Controller::next_step() {
 
 }
 
-
-bool Controller::proc_ID() {
-    return false;
-}
-
 void Controller::proc_IF() {
 
+}
+
+bool Controller::has_data_hazard(reg_num reg) {
+    auto latches = this->stage_latches;
+    return
+    latches.check_reg_data_hazard(reg, latches.memWb.getIr()) ||
+    latches.check_reg_data_hazard(reg, latches.exMem.getIr()) ||
+    latches.check_reg_data_hazard(reg, latches.idEx.getIr());
 }
 
 void Controller::proc_WB() {
@@ -87,7 +91,7 @@ void Controller::proc_EX() {
         // in branching will be used for comparison
         alu_b = ins.rt();
     } else if (ins.is_imm()) {
-        alu_b = ins.imme();
+        alu_b = latch.getImm();
     } else {
         alu_b = latch_b;
     }
@@ -97,4 +101,22 @@ void Controller::proc_EX() {
     // special case for branch, we don't multiply the imm by 4 because the
     // instruction memory line is exactly 32 bit, 4 bytes
     this->stage_latches.exMem = EX_MEM(cond, alu_out, latch.getB(), ins);
+}
+
+bool Controller::proc_ID() {
+    auto latch = this->stage_latches.ifId;
+    auto ins = latch.getIr();
+    auto ins_op = ins.op();
+    auto reg_a = ins.rs();
+    if (this->has_data_hazard(reg_a)) return false;
+    auto dat_a = this->registerFile.read_reg(reg_a);
+    auto dat_b = 0;
+    auto dat_imm = SignExt().extend(ins.imme());
+    if (!ins.is_imm()) {
+        auto reg_b = ins.rt();
+        if (this->has_data_hazard(reg_b)) return false;
+        dat_b = this->registerFile.read_reg(reg_b);
+    }
+    this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
+    return true;
 }

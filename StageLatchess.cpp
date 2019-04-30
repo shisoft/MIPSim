@@ -68,7 +68,8 @@ const Instruction &MEM_WB::getIr() const {
     return IR;
 }
 
-bool StageLatchess::check_data_hazard(reg_num reg, Instruction ins) {
+bool StageLatchess::check_reg_data_hazard(reg_num reg, Instruction ins) {
+    if (ins.op() == BEQ) return false;
     auto target = ins.dest_reg();
     return target != 0 && target == reg;
 }

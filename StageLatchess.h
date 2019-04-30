@@ -89,7 +89,7 @@ public:
     EX_MEM exMem;
     MEM_WB memWb;
 
-    bool check_data_hazard(reg_num reg, Instruction ins);
+    bool check_reg_data_hazard(reg_num reg, Instruction ins);
 };
 
 

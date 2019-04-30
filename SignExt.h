@@ -9,6 +9,7 @@
 #include <cstdint>
 
 class SignExt {
+public:
     int32_t extend(int16_t num);
 };
 
