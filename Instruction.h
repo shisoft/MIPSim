@@ -33,7 +33,9 @@ enum FunctCode {
     AND = 0b100100u,
     OR = 0b100101u,
     NOR = 0b100111u,
-    SLT = 0b101010u
+    SLT = 0b101010u,
+    SLL = 0b000000u,
+    SRL = 0b000010u
 };
 
 class Instruction {
