@@ -95,11 +95,7 @@ void Controller::proc_EX() {
     auto alu_a = latch_a;
     auto alu_b = 0;
     // determinate ALU B by instructions
-    if (ins_op == BEQ) {
-        // rt is originally reserved for result in immediate instructions
-        // in branching will be used for comparison
-        alu_b = ins.rt();
-    } else if (ins_op == LUI) {
+    if (ins_op == LUI) {
         alu_a = latch.getImm();
         alu_b = 16;
     } else if (ins.is_imm()) {
@@ -123,6 +119,7 @@ bool Controller::proc_ID() {
     // return true when nop, this will force PC to increase in IF stage and reach inst_len sooner or later
     if (ins.is_nop()) return true;
     auto reg_a = ins.rs();
+    auto reg_b = 0;
     if (this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
     auto dat_b = 0;
@@ -131,10 +128,16 @@ bool Controller::proc_ID() {
         if (ins.funt() == SLL || ins.funt() == SRL) {
             dat_b = ins.shamt();
         } else {
-            auto reg_b = ins.rt();
-            if (this->has_data_hazard(reg_b)) return false;
-            dat_b = this->registerFile.read_reg(reg_b);
+            reg_b = ins.rt();
         }
+    } else if (ins.op() == BEQ) {
+        // rt is originally reserved for result in immediate instructions
+        // in branching will be used for comparison
+        reg_b = ins.rt();
+    }
+    if (reg_b != 0) {
+        if (this->has_data_hazard(reg_b)) return false;
+        dat_b = this->registerFile.read_reg(reg_b);
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     if (ins.op() == BEQ) {
