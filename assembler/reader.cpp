@@ -110,7 +110,23 @@ field read_reg(std::string &asm_line, size_t &pos) {
 }
 
 imm read_imme(std::string &asm_line, size_t &pos) {
-    return 0;
+    std::stringstream stream;
+    if (asm_line.at(pos) != '0' || asm_line.at(pos + 1) != 'x') {
+        throw string_format("Expecting register hexadecimal number, found '%c%c'", asm_line.at(pos), asm_line.at(pos + 1));
+    }
+    pos += 2;
+    while (true) {
+        char c = asm_line.at(pos);
+        if ((c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f') || (c >= '0' && c <= '9')) {
+            stream << c;
+        } else {
+            break;
+        }
+        pos++;
+    }
+    imm out;
+    stream >> std::hex >> out;
+    return out;
 }
 
 void read_spaces(std::string &asm_line, size_t &pos) {
