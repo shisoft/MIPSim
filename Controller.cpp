@@ -120,12 +120,11 @@ bool Controller::proc_ID() {
     if (ins.is_nop()) return true;
     auto reg_a = ins.rs();
     auto reg_b = 0;
-    if (this->has_data_hazard(reg_a)) return false;
-    auto dat_a = this->registerFile.read_reg(reg_a);
     auto dat_b = 0;
     auto dat_imm = SignExt().extend(ins.imme());
     if (!ins.is_imm()) {
         if (ins.funt() == SLL || ins.funt() == SRL) {
+            reg_a = ins.rt();
             dat_b = ins.shamt();
         } else {
             reg_b = ins.rt();
@@ -139,6 +138,8 @@ bool Controller::proc_ID() {
         if (this->has_data_hazard(reg_b)) return false;
         dat_b = this->registerFile.read_reg(reg_b);
     }
+    if (this->has_data_hazard(reg_a)) return false;
+    auto dat_a = this->registerFile.read_reg(reg_a);
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     if (ins.op() == BEQ) {
         this->ctl_stall = true;
