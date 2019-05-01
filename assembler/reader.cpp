@@ -6,6 +6,7 @@
 #include <sstream>
 #include "reader.h"
 #include "../Instruction.h"
+#include "../format.h"
 
 operation read_op(std::string &asm_line, size_t &pos) {
     std::stringstream stream;
@@ -57,7 +58,55 @@ operation read_op(std::string &asm_line, size_t &pos) {
 }
 
 field read_reg(std::string &asm_line, size_t &pos) {
-    return 0;
+    std::stringstream stream;
+    if (asm_line.at(pos) != '$') {
+        throw string_format("Expecting register symbol $, found '%c'", asm_line.at(pos));
+    }
+    pos++;
+    while (true) {
+        char c = asm_line.at(pos);
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
+            stream << std::tolower(c);
+        } else {
+            break;
+        }
+        pos++;
+    }
+    auto reg_str = stream.str();
+    auto read_dec = [](std::string &regs) {
+        field res = 0;
+        // skip the type tag char
+        for (int i = 1; i < regs.length(); i++) {
+            res = res * 10 + (regs.at(i) - '0');
+        }
+        return res;
+    };
+    char tag = reg_str.at(0);
+    if (reg_str == "zero") {
+        return 0;
+    } else if (reg_str == "at") {
+        return 1;
+    } else if (tag == 'v') {
+        return 2 + read_dec(reg_str);
+    } else if (tag == 'a') {
+        return 4 + read_dec(reg_str);
+    } else if (tag == 't') {
+        auto id = read_dec(reg_str);
+        return id <= 7 ? 8 + id : 24 + id;
+    } else if (tag == 's') {
+        return 16 + read_dec(reg_str);
+    } else if (tag == 'k') {
+        return 26 + read_dec(reg_str);
+    } else if (reg_str == "gp") {
+        return 28;
+    } else if (reg_str == "sp") {
+        return 29;
+    } else if (reg_str == "fp") {
+        return 30;
+    } else if (reg_str == "ra") {
+        return 31;
+    }
+    return 31;
 }
 
 imm read_imme(std::string &asm_line, size_t &pos) {

@@ -138,7 +138,7 @@ bool Controller::proc_ID() {
         if (this->has_data_hazard(reg_b)) return false;
         dat_b = this->registerFile.read_reg(reg_b);
     }
-    if (this->has_data_hazard(reg_a)) return false;
+    if (reg_a != 0 && this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     if (ins.op() == BEQ) {
