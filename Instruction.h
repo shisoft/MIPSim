@@ -42,7 +42,7 @@ class Instruction {
 private:
     uint32_t inst;
 public:
-    Instruction(int32_t inst);
+    Instruction(uint32_t inst);
 
     field op() const;
 

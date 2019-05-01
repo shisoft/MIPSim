@@ -7,7 +7,7 @@
 #include "Instruction.h"
 #include "format.h"
 
-Instruction::Instruction(int32_t inst) : inst(inst) {}
+Instruction::Instruction(uint32_t inst) : inst(inst) {}
 
 field Instruction::op() const {
     return (field) (this->inst >> 26u);

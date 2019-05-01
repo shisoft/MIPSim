@@ -9,6 +9,7 @@
 #include "../format.h"
 
 operation read_op(std::string &asm_line, size_t &pos) {
+    read_spaces(asm_line, pos);
     std::stringstream stream;
     while (true) {
         char c = asm_line.at(pos);
@@ -58,9 +59,14 @@ operation read_op(std::string &asm_line, size_t &pos) {
 }
 
 field read_reg(std::string &asm_line, size_t &pos) {
+    read_spaces(asm_line, pos);
     std::stringstream stream;
     if (asm_line.at(pos) != '$') {
-        throw string_format("Expecting register symbol $, found '%c'", asm_line.at(pos));
+        throw std::runtime_error(
+                string_format(
+                        "Expecting register symbol $ for %s, found '%c'",
+                        asm_line.c_str(),
+                        asm_line.at(pos)));
     }
     pos++;
     while (true) {
@@ -110,9 +116,15 @@ field read_reg(std::string &asm_line, size_t &pos) {
 }
 
 imm read_imme(std::string &asm_line, size_t &pos) {
+    read_spaces(asm_line, pos);
     std::stringstream stream;
     if (asm_line.at(pos) != '0' || asm_line.at(pos + 1) != 'x') {
-        throw string_format("Expecting register hexadecimal number, found '%c%c'", asm_line.at(pos), asm_line.at(pos + 1));
+        throw std::runtime_error(
+                string_format(
+                        "Expecting register hexadecimal number for %s, found '%c%c'",
+                        asm_line.c_str(),
+                        asm_line.at(pos),
+                        asm_line.at(pos + 1)));
     }
     pos += 2;
     while (true) {
@@ -132,9 +144,51 @@ imm read_imme(std::string &asm_line, size_t &pos) {
 void read_spaces(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
-        if (c != ' ' && c != '\t' && c != ',') {
+        if (c != ' ' && c != '\t' && c != ',' && c != '(' && c != ')') {
             return;
         }
         pos++;
     }
+}
+
+Instruction to_instruction(std::string &code) {
+    size_t cursor = 0;
+    auto op = read_op(code, cursor);
+    uint32_t op_code = op.op;
+    uint32_t funct_code = op.funct;
+    uint32_t ins = op_code << 26u | funct_code;
+    switch (op_code) {
+        case LUI:
+        {
+            uint32_t t = read_reg(code, cursor);
+            uint32_t i = read_imme(code, cursor);
+            ins = ins | t << 16u | i;
+            break;
+        }
+        case SW:
+        case LW:
+        {
+            uint32_t t = read_reg(code, cursor);
+            uint32_t offset = read_imme(code, cursor);
+            uint32_t s = read_reg(code, cursor);
+            ins = ins | s << 21u | t << 16u | offset;
+            break;
+        }
+        case 0:
+        {
+            uint32_t d = read_reg(code, cursor);
+            uint32_t s = read_reg(code, cursor);
+            uint32_t t = read_reg(code, cursor);
+            ins = ins | s << 21u | t << 16u | d << 11u;
+            break;
+        }
+        default:
+            uint32_t t = read_reg(code, cursor);
+            uint32_t s = read_reg(code, cursor);
+            uint32_t i = read_imme(code, cursor);
+            ins = ins | s << 21u | t << 16u | i;
+            break;
+    }
+
+    return {ins};
 }
