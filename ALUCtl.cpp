@@ -24,6 +24,10 @@ Op ALUCtl::decode(Instruction ins) {
                     return ALU_NOR;
                 case SLT:
                     return ALU_SLT;
+                case SLL:
+                    return ALU_LS;
+                case SRL:
+                    return ALU_RS;
                 default:
                     throw;
             }

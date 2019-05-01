@@ -128,9 +128,13 @@ bool Controller::proc_ID() {
     auto dat_b = 0;
     auto dat_imm = SignExt().extend(ins.imme());
     if (!ins.is_imm()) {
-        auto reg_b = ins.rt();
-        if (this->has_data_hazard(reg_b)) return false;
-        dat_b = this->registerFile.read_reg(reg_b);
+        if (ins.funt() == SLL || ins.funt() == SRL) {
+            dat_b = ins.shamt();
+        } else {
+            auto reg_b = ins.rt();
+            if (this->has_data_hazard(reg_b)) return false;
+            dat_b = this->registerFile.read_reg(reg_b);
+        }
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
     if (ins.op() == BEQ) {

@@ -18,6 +18,7 @@ enum Op {
     ALU_SLT,
     ALU_NOR,
     ALU_LS,
+    ALU_RS,
     ALU_NOP
 };
 

@@ -22,6 +22,8 @@ alu_res ALU::compute(reg_dat a, reg_dat b, Op op) {
             return !(a | b);
         case ALU_LS:
             return a << b;
+        case ALU_RS:
+            return a >> b;
         case ALU_NOP:
             return 0;
     }
