@@ -17,8 +17,11 @@ typedef uint32_t inst_len;
 class Controller {
 public:
     void next_step();
+
     bool ended();
+
     bool has_data_hazard(reg_num reg);
+
 private:
     StageLatchess stage_latches;
     PC pc;
@@ -32,11 +35,16 @@ private:
     bool ctl_stall; // stall due to control hazard
 
     void proc_WB();
+
     void proc_MEM();
+
     void proc_EX();
+
     // return false if stall
     bool proc_ID();
+
     void proc_IF();
+
     cycles clock_cycles();
 };
 

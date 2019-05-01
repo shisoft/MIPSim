@@ -6,7 +6,7 @@
 #define PROJECT_3_INSTRUCTION_H
 
 
-#include <cstdint>
+#include <string>
 #include "wires.h"
 
 // The simulator should implement the following instructions:
@@ -23,8 +23,7 @@ enum OpCode {
     ANDI = 0b001100u,
     ORI = 0b001101u,
     SLTI = 0b001010u,
-    SLTIU = 0b001011u,
-    NOP = 0b111111u
+    SLTIU = 0b001011u
 };
 
 enum FunctCode {
@@ -42,21 +41,37 @@ private:
     uint32_t inst;
 public:
     Instruction(int32_t inst);
-    field op();
-    field rs();
-    field rt();
-    field rd();
-    field shamt();
-    field funt();
-    imm imme();
-    j target();
+
+    field op() const;
+
+    field rs() const;
+
+    field rt() const;
+
+    field rd() const;
+
+    field shamt() const;
+
+    field funt() const;
+
+    imm imme() const;
+
+    j target() const;
 
     field dest_reg();
-    bool is_imm();
+
+    bool is_imm() const;
 
     void set_nop();
+
     bool is_nop() const;
+
+    std::string as_hex() const;
+
+    std::string as_asm() const;
 };
 
+
+std::string reg_name(field reg);
 
 #endif //PROJECT_3_INSTRUCTION_H

@@ -99,7 +99,7 @@ void Controller::proc_EX() {
         // rt is originally reserved for result in immediate instructions
         // in branching will be used for comparison
         alu_b = ins.rt();
-    } else if (ins_op == LUI){
+    } else if (ins_op == LUI) {
         alu_a = latch.getImm();
         alu_b = 16;
     } else if (ins.is_imm()) {

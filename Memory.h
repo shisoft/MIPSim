@@ -13,6 +13,7 @@ private:
     line mem[524288]; // 2 kbytes
 public:
     line read(addr address);
+
     void write(addr address, line data);
 };
 

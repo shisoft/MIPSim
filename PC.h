@@ -14,7 +14,9 @@ private:
     p_count counter;
 public:
     p_count get();
+
     void set(p_count c);
+
     void next();
 };
 

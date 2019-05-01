@@ -18,7 +18,8 @@ void IF_ID::set_nop() {
     this->IR.set_nop();
 }
 
-ID_EX::ID_EX(reg_dat a, reg_dat b, reg_dat imm, p_count npc, const Instruction &ir) : A(a), B(b), IMM(imm), NPC(npc), IR(ir) {}
+ID_EX::ID_EX(reg_dat a, reg_dat b, reg_dat imm, p_count npc, const Instruction &ir) : A(a), B(b), IMM(imm), NPC(npc),
+                                                                                      IR(ir) {}
 
 reg_dat ID_EX::getA() const {
     return A;
@@ -44,7 +45,8 @@ void ID_EX::set_nop() {
     this->IR.set_nop();
 }
 
-EX_MEM::EX_MEM(reg_dat cond, alu_res aluOut, reg_dat b, const Instruction &ir) : cond(cond), ALUOut(aluOut), B(b), IR(ir) {}
+EX_MEM::EX_MEM(reg_dat cond, alu_res aluOut, reg_dat b, const Instruction &ir) : cond(cond), ALUOut(aluOut), B(b),
+                                                                                 IR(ir) {}
 
 reg_dat EX_MEM::getCond() const {
     return cond;
