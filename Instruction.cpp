@@ -14,31 +14,31 @@ field Instruction::op() const {
 }
 
 field Instruction::rs() const {
-    return (field) (this->inst >> 21u | 0b11111u);
+    return (field) (this->inst >> 21u & 0b11111u);
 }
 
 field Instruction::rt() const {
-    return (field) (this->inst >> 16u | 0b11111u);
+    return (field) (this->inst >> 16u & 0b11111u);
 }
 
 field Instruction::rd() const {
-    return (field) (this->inst >> 11u | 0b11111u);
+    return (field) (this->inst >> 11u & 0b11111u);
 }
 
 field Instruction::shamt() const {
-    return (field) (this->inst >> 6u | 0b11111u);
+    return (field) (this->inst >> 6u & 0b11111u);
 }
 
 field Instruction::funt() const {
-    return (field) (this->inst | 0b111111u);
+    return (field) (this->inst & 0b111111u);
 }
 
 imm Instruction::imme() const {
-    return (imm) (this->inst | 0xFFFFu);
+    return (imm) (this->inst & 0xFFFFu);
 }
 
 j Instruction::target() const {
-    return (j) (this->inst | 0b1111'1111'1111'1111'1111'1111'11u);
+    return (j) (this->inst & 0b1111'1111'1111'1111'1111'1111'11u);
 }
 
 field Instruction::dest_reg() {
@@ -84,6 +84,7 @@ std::string Instruction::as_asm() const {
                 break;
             case BEQ:
                 stream << "BEQ";
+                break;
             case LUI:
                 stream << "LUI";
                 break;
@@ -101,14 +102,16 @@ std::string Instruction::as_asm() const {
                 break;
             default:
                 stream << "???I";
+                break;
         }
         stream << " " << reg_name(this->rt());
         if (op != LUI) {
             stream << " " << reg_name(this->rs());
         }
-        stream << " " << std::hex << this->imme();
+        stream << " 0x" << std::hex << this->imme();
     } else {
-        switch (this->funt()) {
+        auto funct = this->funt();
+        switch (funct) {
             case ADD:
                 stream << "ADD";
                 break;
@@ -131,10 +134,10 @@ std::string Instruction::as_asm() const {
                 stream << "SLT";
                 break;
             default:
-                stream << "???";
+                stream << "???" << std::bitset<6>(funct).to_string();
                 break;
         }
-        stream << " " << reg_name(this->rd()) << " " << this->rs() << " " << this->rt();
+        stream << " " << reg_name(this->rd()) << " " << reg_name(this->rs()) << " " << reg_name(this->rt());
     }
     return stream.str();
 }
