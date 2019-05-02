@@ -33,7 +33,8 @@ private:
     Memory inst_memory{};
     ALU alu;
     ALUCtl alu_ctl;
-    cycles clock;
+    cycles clock = 0;
+    cycles utilized = 0;
     inst_len inst_length;
     bool ctl_stall; // stall due to control hazard
 
@@ -54,6 +55,10 @@ private:
 
     void Inspect();
     void InspectRegisters();
+
+    void inspect_and_wait();
+
+    void cycle_utilized();
 };
 
 

@@ -58,6 +58,7 @@ Instruction Controller::proc_WB() {
     }
     this->registerFile.write_reg(target, dat_write);
     latch->set_nop();
+    this->cycle_utilized();
     return ins;
 }
 
@@ -86,6 +87,7 @@ void Controller::proc_MEM() {
     }
     this->stage_latches.memWb = MEM_WB(mem_res, alu_res, ins);
     latch->set_nop();
+    this->cycle_utilized();
 }
 
 void Controller::proc_EX() {
@@ -113,6 +115,7 @@ void Controller::proc_EX() {
     // instruction memory line is exactly 32 bit, 4 bytes
     this->stage_latches.exMem = EX_MEM(cond, alu_out, latch->getB(), ins);
     latch->set_nop();
+    this->cycle_utilized();
 }
 
 bool Controller::proc_ID() {
@@ -148,6 +151,7 @@ bool Controller::proc_ID() {
         this->ctl_stall = true;
     }
     latch->set_nop();
+    this->cycle_utilized();
     return true;
 }
 
@@ -159,6 +163,7 @@ void Controller::proc_IF() {
     auto ins = this->inst_memory.read(npc);
     this->stage_latches.ifId = IF_ID(npc, ins);
     this->pc.next();
+    this->cycle_utilized();
 }
 
 cycles Controller::clock_cycles() {
@@ -185,25 +190,32 @@ Controller::Controller(const Memory &instMemory, inst_len len) {
     this->stage_latches = StageLatches{};
 }
 
+void Controller::inspect_and_wait() {
+    this->Inspect();
+    std::cout << "'R' for registers and continue, anything else to continue...";
+    char key;
+    std::cin >> key;
+    if (std::tolower(key) == 'r') {
+        this->InspectRegisters();
+    }
+}
+
 void Controller::run_inst_mode() {
     while (!this->ended()) {
         auto wb_ins = this->next_step();
         if (!wb_ins.is_nop()) {
             std::cout << "Have run: " << wb_ins.as_asm() << std::endl;
-            this->Inspect();
-            std::cout << "PRESS ANY KEY TO CONTINUE, 'R' FOR REGISTERS...";
-            char key;
-            std::cin >> key;
-            if (std::tolower(key) == 'r') {
-                this->InspectRegisters();
-            }
+            this->inspect_and_wait();
         }
     }
     std::cout << "All available instructions have been run" << std::endl;
 }
 
 void Controller::run_cycle_mode() {
-
+    while (!this->ended()) {
+        auto wb_ins = this->next_step();
+        this->inspect_and_wait();
+    }
 }
 
 void Controller::Inspect() {
@@ -211,11 +223,14 @@ void Controller::Inspect() {
     std::cout << "Program Counter: " << std::dec << this->pc.get() << std::endl;
     std::cout << "Control Stall: " << std::dec << this->ctl_stall << std::endl;
     std::cout << "Clock Cycle: " << std::dec << this->clock << std::endl;
+    std::cout << "Efficiency: " << std::dec << 100 * this->utilized / (this->clock * 5) << "%" << std::endl;
     std::cout << "------------------IF-ID---------------" << std::endl;
     auto if_id = this->stage_latches.ifId;
     if (!if_id.getIr().is_nop()) {
         std::cout << "Ins: " << if_id.getIr().as_asm() << std::endl;
         std::cout << "NPC: " << std::dec << if_id.getNpc() << std::endl;
+    } else {
+        std::cout << "BUBBLE" << std::endl;
     }
     std::cout << "------------------ID-EX---------------" << std::endl;
     auto id_ex = this->stage_latches.idEx;
@@ -225,14 +240,18 @@ void Controller::Inspect() {
         std::cout << "A: 0x" << std::hex << id_ex.getA() << std::endl;
         std::cout << "B: 0x" << std::hex << id_ex.getB() << std::endl;
         std::cout << "I: 0x" << std::hex << id_ex.getImm() << std::endl;
+    } else {
+        std::cout << "BUBBLE" << std::endl;
     }
     std::cout << "-----------------EX-MEM---------------" << std::endl;
     auto ex_mem = this->stage_latches.exMem;
     if (!ex_mem.getIr().is_nop()) {
         std::cout << "Ins: " << std::dec << ex_mem.getIr().as_asm() << std::endl;
         std::cout << "ALU: 0x" << std::hex << ex_mem.getAluOut() << std::endl;
-        std::cout << "COND 0x:" << std::hex << ex_mem.getCond() << std::endl;
+        std::cout << "COND: 0x" << std::hex << ex_mem.getCond() << std::endl;
         std::cout << "B: 0x" << std::hex << ex_mem.getB() << std::endl;
+    } else {
+        std::cout << "BUBBLE" << std::endl;
     }
     std::cout << "----------------MEM-WB---------------" << std::endl;
     auto mem_wb = this->stage_latches.memWb;
@@ -240,6 +259,8 @@ void Controller::Inspect() {
         std::cout << "Ins: " << std::dec << mem_wb.getIr().as_asm() << std::endl;
         std::cout << "ALU: 0x" << std::hex << mem_wb.getAluOut() << std::endl;
         std::cout << "LMD: 0x" << std::hex << mem_wb.getLmd() << std::endl;
+    } else {
+        std::cout << "BUBBLE" << std::endl;
     }
     std::cout << "======================================" << std::endl;
 }
@@ -248,5 +269,9 @@ void Controller::InspectRegisters() {
     for (field i = 0; i < 32; i++) {
         std::cout << reg_name(i) << ": 0x" << std::hex << this->registerFile.read_reg(i) << std::endl;
     }
+}
+
+void Controller::cycle_utilized() {
+    this->utilized++;
 }
 

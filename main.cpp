@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     auto code_mem = read_code(code_path);
     std::cout << "Code read and assemble completed, total " << code_mem.bound << " instructions" << std::endl;
     while (true) {
-        std::cout << "Select mode: 1 - Instruction, 2 - Cycle: ";
+        std::cout << "Select mode: 1 - Instruction, 2 - Cycle, 3 - Burst: ";
         int mode;
         std::cin >> mode;
         Controller ctl = Controller(code_mem.memory, code_mem.bound);
@@ -26,6 +26,8 @@ int main(int argc, char* argv[]) {
                 std::cout << "Running in Cycle mode" << std::endl;
                 ctl.run_cycle_mode();
                 break;
+            case 3:
+
             default:
                 std::cout << "Cannot understand mode " << mode << "..." << std::endl;
                 exit(2);
