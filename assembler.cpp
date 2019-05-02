@@ -4,9 +4,9 @@
 
 #include <string>
 #include <sstream>
-#include "reader.h"
-#include "../Instruction.h"
-#include "../format.h"
+#include "assembler.h"
+#include "Instruction.h"
+#include "format.h"
 
 operation read_op(std::string &asm_line, size_t &pos) {
     read_spaces(asm_line, pos);
@@ -192,3 +192,4 @@ Instruction to_instruction(std::string &code) {
 
     return {ins};
 }
+
