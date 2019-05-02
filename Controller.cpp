@@ -208,12 +208,11 @@ void Controller::run_inst_mode() {
             this->inspect_and_wait();
         }
     }
-    std::cout << "All available instructions have been run" << std::endl;
 }
 
 void Controller::run_cycle_mode() {
     while (!this->ended()) {
-        auto wb_ins = this->next_step();
+        this->next_step();
         this->inspect_and_wait();
     }
 }
@@ -273,5 +272,13 @@ void Controller::InspectRegisters() {
 
 void Controller::cycle_utilized() {
     this->utilized++;
+}
+
+void Controller::run_burst_mode() {
+    while (!this->ended()) {
+        this->next_step();
+    }
+    this->Inspect();
+    this->InspectRegisters();
 }
 

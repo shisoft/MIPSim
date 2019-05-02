@@ -27,11 +27,14 @@ int main(int argc, char* argv[]) {
                 ctl.run_cycle_mode();
                 break;
             case 3:
-
+                std::cout << "Running in Burst mode" << std::endl;
+                ctl.run_burst_mode();
+                break;
             default:
                 std::cout << "Cannot understand mode " << mode << "..." << std::endl;
                 exit(2);
         }
+        std::cout << "All available instructions have been run" << std::endl;
         std::cout << "Do you wish to run another round of this simulation? yN: ";
         char rerun;
         std::cin >> rerun;

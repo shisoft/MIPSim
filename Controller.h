@@ -18,6 +18,7 @@ class Controller {
 public:
     void run_inst_mode();
     void run_cycle_mode();
+    void run_burst_mode();
 
     bool ended();
 
