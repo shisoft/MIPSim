@@ -71,6 +71,8 @@ public:
     std::string as_hex() const;
 
     std::string as_asm() const;
+
+    std::string as_bin() const;
 };
 
 

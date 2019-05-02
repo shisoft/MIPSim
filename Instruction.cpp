@@ -64,6 +64,10 @@ std::string Instruction::as_hex() const {
     return stream.str();
 }
 
+std::string Instruction::as_bin() const {
+    return std::bitset<32>(this->inst).to_string();
+}
+
 std::string Instruction::as_asm() const {
     std::stringstream stream;
     auto op = this->op();

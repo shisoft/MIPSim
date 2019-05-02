@@ -4,7 +4,8 @@
 
 #include <string>
 #include <sstream>
-#include "assembler.h"
+#include <iostream>
+#include "Assembler.h"
 #include "Instruction.h"
 #include "format.h"
 
@@ -14,7 +15,7 @@ operation read_op(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-            stream << std::tolower(c);
+            stream << (char) std::tolower(c);
         } else {
             break;
         }
@@ -72,7 +73,7 @@ field read_reg(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
-            stream << std::tolower(c);
+            stream << (char) std::tolower(c);
         } else {
             break;
         }
@@ -80,7 +81,7 @@ field read_reg(std::string &asm_line, size_t &pos) {
     }
     auto reg_str = stream.str();
     auto read_dec = [](std::string &regs) {
-        field res = 0;
+        auto res = 0;
         // skip the type tag char
         for (int i = 1; i < regs.length(); i++) {
             res = res * 10 + (regs.at(i) - '0');
@@ -98,7 +99,7 @@ field read_reg(std::string &asm_line, size_t &pos) {
         return 4 + read_dec(reg_str);
     } else if (tag == 't') {
         auto id = read_dec(reg_str);
-        return id <= 7 ? 8 + id : 24 + id;
+        return id < 8 ? 8 + id : 24 + id;
     } else if (tag == 's') {
         return 16 + read_dec(reg_str);
     } else if (tag == 'k') {
@@ -144,14 +145,14 @@ imm read_imme(std::string &asm_line, size_t &pos) {
 void read_spaces(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
-        if (c != ' ' && c != '\t' && c != ',' && c != '(' && c != ')') {
+        if (c != ' ' && c != '\t' && c != ',' && c != '(' && c != ')' && c != '\r' && c != '\n') {
             return;
         }
         pos++;
     }
 }
 
-Instruction to_instruction(std::string &code) {
+uint32_t to_instruction(std::string &code) {
     size_t cursor = 0;
     auto op = read_op(code, cursor);
     uint32_t op_code = op.op;
@@ -182,14 +183,28 @@ Instruction to_instruction(std::string &code) {
             ins = ins | s << 21u | t << 16u | d << 11u;
             break;
         }
+        case BEQ:
+        {
+            uint32_t s = read_reg(code, cursor);
+            uint32_t t = read_reg(code, cursor);
+            uint32_t i = read_imme(code, cursor);
+            ins = ins | s << 21u | t << 16u | i;
+            break;
+        }
         default:
+        {
             uint32_t t = read_reg(code, cursor);
             uint32_t s = read_reg(code, cursor);
             uint32_t i = read_imme(code, cursor);
             ins = ins | s << 21u | t << 16u | i;
             break;
+        }
     }
 
-    return {ins};
+    return ins;
 }
 
+operation::operation() {
+    this->funct = 0;
+    this->op = 0;
+}
