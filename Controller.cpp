@@ -2,6 +2,7 @@
 // Created by 施昊 on 2019-04-17.
 //
 
+#include <iostream>
 #include "Controller.h"
 #include "SignExt.h"
 
@@ -9,15 +10,16 @@ reg_dat alu_res_to_dat(alu_res alu_res) {
     return alu_res & 0xFFFFFFFF;
 }
 
-void Controller::next_step() {
+Instruction Controller::next_step() {
     // increase the clock cycle
     this->clock++;
     // process the pipeline, from the last to the first
-    this->proc_WB();
+    auto inst_completed = this->proc_WB();
     this->proc_MEM();
     this->proc_EX();
-    if (this->proc_ID()) return;
+    if (!this->proc_ID()) return inst_completed;
     this->proc_IF();
+    return inst_completed;
 }
 
 bool Controller::has_data_hazard(reg_num reg) {
@@ -27,16 +29,16 @@ bool Controller::has_data_hazard(reg_num reg) {
            latches.check_reg_data_hazard(reg, latches.idEx.getIr());
 }
 
-void Controller::proc_WB() {
+Instruction Controller::proc_WB() {
     auto latch = this->stage_latches.memWb;
     auto ins = latch.getIr();
-    if (ins.is_nop()) return;
+    if (ins.is_nop()) return {NOP_INST};
     auto target = ins.dest_reg();
     auto dat_write = 0;
     switch (ins.op()) {
         case BEQ:
             // do nothing
-            return;
+            return ins;
         case LW:
             dat_write = latch.getLmd();
             break;
@@ -56,6 +58,7 @@ void Controller::proc_WB() {
     }
     this->registerFile.write_reg(target, dat_write);
     latch.set_nop();
+    return ins;
 }
 
 void Controller::proc_MEM() {
@@ -153,9 +156,7 @@ void Controller::proc_IF() {
     auto npc = this->pc.get();
     auto ins = this->inst_memory.read(npc);
     this->stage_latches.ifId = IF_ID(npc, ins);
-    // plus one for the memory is 32 bit 4 byte each line
-    npc++;
-    this->pc.set(npc);
+    this->pc.next();
 }
 
 cycles Controller::clock_cycles() {
@@ -180,5 +181,61 @@ Controller::Controller(const Memory &instMemory, inst_len len) {
     this->inst_length = len;
     this->ctl_stall = false;
     this->stage_latches = StageLatches{};
+}
+
+void Controller::run_inst_mode() {
+    while (!this->ended()) {
+        while (true) {
+            auto wb_ins = this->next_step();
+            if (!wb_ins.is_nop()) {
+                std::cout << "Run: " << wb_ins.as_asm() << std::endl;
+                this->Inspect();
+                break;
+            }
+        }
+    }
+    std::cout << "All available instructions have been run" << std::endl;
+}
+
+void Controller::run_cycle_mode() {
+
+}
+
+bool Controller::Inspect() {
+    std::cout << "======================================" << std::endl;
+    std::cout << "Program Counter: " << this->pc.get() << std::endl;
+    std::cout << "Control Stall: " << this->ctl_stall << std::endl;
+    std::cout << "Clock Cycle:" << this->clock << std::endl;
+    std::cout << "------------------IF-ID---------------" << std::endl;
+    auto if_id = this->stage_latches.ifId;
+    std::cout << "Ins:" << if_id.getIr().as_asm() << std::endl;
+    std::cout << "NPC:" << if_id.getNpc() << std::endl;
+    std::cout << "------------------ID-EX---------------" << std::endl;
+    auto id_ex = this->stage_latches.idEx;
+    std::cout << "Ins:" << id_ex.getIr().as_asm() << std::endl;
+    std::cout << "NPC:" << id_ex.getNpc() << std::endl;
+    std::cout << "A: 0x" << std::hex << id_ex.getA() << std::endl;
+    std::cout << "B: 0x" << std::hex << id_ex.getB() << std::endl;
+    std::cout << "I: 0x" << std::hex << id_ex.getImm() << std::endl;
+    std::cout << "-----------------EX-MEM---------------" << std::endl;
+    auto ex_mem = this->stage_latches.exMem;
+    std::cout << "Ins:" << ex_mem.getIr().as_asm() << std::endl;
+    std::cout << "ALU: 0x" << std::hex << ex_mem.getAluOut() << std::endl;
+    std::cout << "COND 0x:" << std::hex << ex_mem.getCond() << std::endl;
+    std::cout << "B: 0x" << std::hex << ex_mem.getB() << std::endl;
+    std::cout << "----------------MEM-WB---------------" << std::endl;
+    auto mem_wb = this->stage_latches.memWb;
+    std::cout << "Ins:" << mem_wb.getIr().as_asm() << std::endl;
+    std::cout << "ALU: 0x" << std::hex << mem_wb.getAluOut() << std::endl;
+    std::cout << "LMD: 0x" << std::hex << mem_wb.getLmd() << std::endl;
+    std::cout << "======================================" << std::endl;
+    std::cout << "PRESS ANY TO CONTINUE OR 'R' FOR REGISTERS..." << std::endl;
+    if (std::tolower(std::cin.get()) == 'r') {
+        for (field i = 0; i < 32; i++) {
+            std::cout << reg_name(i) << ": 0x" << std::hex << this->registerFile.read_reg(i) << std::endl;
+        }
+        return true;
+    }
+    return false;
 }
 

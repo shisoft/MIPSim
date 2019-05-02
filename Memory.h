@@ -10,7 +10,7 @@
 
 class Memory {
 private:
-    line mem[524288]; // 2 kbytes
+    line mem[2048] = {0}; // 2 kbytes
 public:
     line read(addr address);
 

@@ -16,7 +16,8 @@ typedef uint32_t inst_len;
 
 class Controller {
 public:
-    void next_step();
+    void run_inst_mode();
+    void run_cycle_mode();
 
     bool ended();
 
@@ -26,17 +27,17 @@ public:
 
 private:
     StageLatches stage_latches;
-    PC pc;
-    RegisterFile registerFile;
-    Memory data_memory;
-    Memory inst_memory;
+    PC pc{};
+    RegisterFile registerFile{};
+    Memory data_memory{};
+    Memory inst_memory{};
     ALU alu;
     ALUCtl alu_ctl;
     cycles clock;
     inst_len inst_length;
     bool ctl_stall; // stall due to control hazard
 
-    void proc_WB();
+    Instruction proc_WB();
 
     void proc_MEM();
 
@@ -48,6 +49,10 @@ private:
     void proc_IF();
 
     cycles clock_cycles();
+
+    Instruction next_step();
+
+    bool Inspect();
 };
 
 

@@ -6,7 +6,7 @@
 
 CodeMemory read_code(std::string &file) {
     size_t index = 0;
-    Memory memory = Memory{};
+    Memory memory = Memory();
     std::ifstream infile(file);
     std::string line;
     while (getline(infile, line))

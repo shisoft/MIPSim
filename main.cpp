@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CodeReader.h"
+#include "Controller.h"
 
 int main(int argc, char* argv[]) {
     std::cout << "UMass Amherst ECE 697CE Project 3" << std::endl;
@@ -15,20 +16,20 @@ int main(int argc, char* argv[]) {
         std::cout << "Select mode: 1 - Instruction, 2 - Cycle: ";
         int mode;
         std::cin >> mode;
-
+        Controller ctl = Controller(code_mem.memory, code_mem.bound);
         switch (mode) {
             case 1:
                 std::cout << "Running in Instruction mode" << std::endl;
-
+                ctl.run_inst_mode();
                 break;
             case 2:
                 std::cout << "Running in Cycle mode" << std::endl;
+                ctl.run_cycle_mode();
                 break;
             default:
                 std::cout << "Cannot understand mode " << mode << "..." << std::endl;
                 exit(2);
         }
-
         std::cout << "Do you wish to run another round of this simulation? yN: ";
         char rerun;
         std::cin >> rerun;
