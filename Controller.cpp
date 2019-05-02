@@ -170,3 +170,15 @@ bool Controller::ended() {
            latches.memWb.getIr().is_nop() &&
            this->pc.get() >= this->inst_length;
 }
+
+Controller::Controller(const Memory &instMemory, inst_len len) {
+    this->pc = PC{};
+    this->registerFile = RegisterFile{};
+    this->data_memory = Memory{};
+    this->inst_memory = instMemory;
+    this->clock = 0;
+    this->inst_length = len;
+    this->ctl_stall = false;
+    this->stage_latches = StageLatches{};
+}
+

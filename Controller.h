@@ -6,7 +6,7 @@
 #define PROJECT_3_CONTROLLER_H
 
 
-#include "StageLatchess.h"
+#include "StageLatches.h"
 #include "PC.h"
 #include "Memory.h"
 #include "ALUCtl.h"
@@ -22,8 +22,10 @@ public:
 
     bool has_data_hazard(reg_num reg);
 
+    explicit Controller(const Memory &instMemory, inst_len len);
+
 private:
-    StageLatchess stage_latches;
+    StageLatches stage_latches;
     PC pc;
     RegisterFile registerFile;
     Memory data_memory;

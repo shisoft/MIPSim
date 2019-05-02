@@ -2,7 +2,7 @@
 // Created by 施昊 on 2019-04-17.
 //
 
-#include "StageLatchess.h"
+#include "StageLatches.h"
 
 IF_ID::IF_ID(p_count npc, const Instruction &ir) : NPC(npc), IR(ir) {}
 
@@ -86,8 +86,10 @@ void MEM_WB::set_nop() {
     this->IR.set_nop();
 }
 
-bool StageLatchess::check_reg_data_hazard(reg_num reg, Instruction ins) {
+bool StageLatches::check_reg_data_hazard(reg_num reg, Instruction ins) {
     if (ins.op() == BEQ) return false;
     auto target = ins.dest_reg();
     return target != 0 && target == reg;
 }
+
+StageLatches::StageLatches() {}

@@ -5,7 +5,7 @@
 #ifndef PROJECT_3_ALU_H
 #define PROJECT_3_ALU_H
 
-#include "StageLatchess.h"
+#include "StageLatches.h"
 #include "wires.h"
 
 

@@ -2,8 +2,8 @@
 // Created by 施昊 on 2019-04-17.
 //
 
-#ifndef PROJECT_3_STAGELATCHESS_H
-#define PROJECT_3_STAGELATCHESS_H
+#ifndef PROJECT_3_STAGELATCHES_H
+#define PROJECT_3_STAGELATCHES_H
 
 
 #include <cstdint>
@@ -89,16 +89,18 @@ public:
     void set_nop();
 };
 
-class StageLatchess {
+class StageLatches {
 public:
     // define stage latches
-    IF_ID ifId;
-    ID_EX idEx;
-    EX_MEM exMem;
-    MEM_WB memWb;
+    IF_ID ifId = IF_ID(0, Instruction(NOP_INST));
+    ID_EX idEx = ID_EX(0, 0, 0, 0, Instruction(NOP_INST));
+    EX_MEM exMem = EX_MEM(0, 0, 0, Instruction(NOP_INST));
+    MEM_WB memWb = MEM_WB(0, 0, Instruction(NOP_INST));
 
     bool check_reg_data_hazard(reg_num reg, Instruction ins);
+
+    StageLatches();
 };
 
 
-#endif //PROJECT_3_STAGELATCHESS_H
+#endif //PROJECT_3_STAGELATCHES_H

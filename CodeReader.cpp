@@ -12,17 +12,17 @@ CodeMemory read_code(std::string &file) {
     while (getline(infile, line))
     {
         if (line.length() < 4) continue;
-        std::cout << "< " << line << std::endl;
+        std::cout << "IN  < " << line << std::endl;
         auto ins_raw = to_instruction(line);
         auto ins = Instruction(ins_raw);
-        std::cout << "> " << ins.as_hex() << std::endl;
-        std::cout << "> " << ins.as_bin() << std::endl;
-        std::cout << "> " << ins.as_asm() << std::endl << std::endl;
+        std::cout << "HEX > " << ins.as_hex() << std::endl;
+        std::cout << "BIN > " << ins.as_bin() << std::endl;
+        std::cout << "ASM > " << ins.as_asm() << std::endl << std::endl;
         memory.write(index, ins_raw);
         index++;
     }
     if (index == 0) {
-        std::cout << "<NOTHING READ>" << std::endl;
+        std::cout << "<NOTHING TO READ>" << std::endl;
     }
     return CodeMemory{ memory, index };
 }
