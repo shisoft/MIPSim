@@ -131,7 +131,7 @@ imm read_imme(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f') || (c >= '0' && c <= '9')) {
-            stream << c;
+            stream << (char) std::tolower(c);
         } else {
             break;
         }

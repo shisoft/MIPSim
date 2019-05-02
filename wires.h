@@ -13,14 +13,14 @@
 typedef int64_t alu_res;
 
 typedef uint8_t field;
-typedef int16_t imm;
-typedef int32_t j;
+typedef uint16_t imm; // use uint16 or will overflow
+typedef uint32_t j;
 
-typedef int32_t addr;
-typedef int32_t line;
+typedef uint32_t addr;
+typedef uint32_t line;
 
-typedef int32_t p_count;
+typedef uint32_t p_count;
 
-typedef int_fast32_t reg_dat;
-typedef int8_t reg_num;
+typedef uint_fast32_t reg_dat;
+typedef uint8_t reg_num;
 
