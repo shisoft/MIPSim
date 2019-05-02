@@ -37,8 +37,10 @@ Instruction Controller::proc_WB() {
     auto dat_write = 0;
     switch (ins.op()) {
         case BEQ:
+        case SW:
             // do nothing
-            return ins;
+            target = 0;
+            break;
         case LW:
             dat_write = latch->getLmd();
             break;
@@ -56,7 +58,7 @@ Instruction Controller::proc_WB() {
             }
             break;
     }
-    this->registerFile.write_reg(target, dat_write);
+    if (target != 0) this->registerFile.write_reg(target, dat_write);
     latch->set_nop();
     this->cycle_utilized();
     return ins;
@@ -80,7 +82,7 @@ void Controller::proc_MEM() {
             break;
         case BEQ:
             // Branch EQual, when ALU result == 0 which indicates equal, should set program counter to cond in latch
-            if (alu_res == 0) this->pc.set(latch->getCond());
+            if (alu_res == 0) this->pc.set(latch->getCond() + 1);
             // unset the control stall flag, so the IF stage will be enabled in next cycle
             this->ctl_stall = false;
             break;
@@ -103,7 +105,7 @@ void Controller::proc_EX() {
     if (ins_op == LUI) {
         alu_a = latch->getImm();
         alu_b = 16;
-    } else if (ins.is_imm()) {
+    } else if (ins.is_imm() && ins.op() != BEQ) {
         alu_b = latch->getImm();
     } else {
         alu_b = latch_b;
@@ -135,7 +137,7 @@ bool Controller::proc_ID() {
         } else {
             reg_b = ins.rt();
         }
-    } else if (ins.op() == BEQ) {
+    } else if (ins.op() == BEQ || ins.op() == SW) {
         // rt is originally reserved for result in immediate instructions
         // in branching will be used for comparison
         reg_b = ins.rt();
@@ -146,10 +148,11 @@ bool Controller::proc_ID() {
     }
     if (reg_a != 0 && this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
-    this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch->getNpc(), ins);
     if (ins.op() == BEQ) {
         this->ctl_stall = true;
+        std::cout << "BEQ have A" << dat_a << " B: " << dat_b << std::endl;
     }
+    this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch->getNpc(), ins);
     latch->set_nop();
     this->cycle_utilized();
     return true;

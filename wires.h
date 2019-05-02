@@ -10,7 +10,7 @@
 #endif //PROJECT_3_WIRES_H
 
 
-typedef int64_t alu_res;
+typedef uint64_t alu_res;
 
 typedef uint8_t field;
 typedef uint16_t imm; // use uint16 or will overflow

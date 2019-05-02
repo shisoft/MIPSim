@@ -10,7 +10,7 @@
 
 class SignExt {
 public:
-    int32_t extend(int16_t num);
+    uint32_t extend(uint16_t num);
 };
 
 

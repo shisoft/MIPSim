@@ -10,7 +10,7 @@
 #include "format.h"
 
 operation read_op(std::string &asm_line, size_t &pos) {
-    read_spaces(asm_line, pos);
+    read_garbage(asm_line, pos);
     std::stringstream stream;
     while (true) {
         char c = asm_line.at(pos);
@@ -60,7 +60,7 @@ operation read_op(std::string &asm_line, size_t &pos) {
 }
 
 field read_reg(std::string &asm_line, size_t &pos) {
-    read_spaces(asm_line, pos);
+    read_garbage(asm_line, pos);
     std::stringstream stream;
     if (asm_line.at(pos) != '$') {
         throw std::runtime_error(
@@ -117,7 +117,7 @@ field read_reg(std::string &asm_line, size_t &pos) {
 }
 
 imm read_imme(std::string &asm_line, size_t &pos) {
-    read_spaces(asm_line, pos);
+    read_garbage(asm_line, pos);
     std::stringstream stream;
     if (asm_line.at(pos) != '0' || asm_line.at(pos + 1) != 'x') {
         throw std::runtime_error(
@@ -142,7 +142,7 @@ imm read_imme(std::string &asm_line, size_t &pos) {
     return out;
 }
 
-void read_spaces(std::string &asm_line, size_t &pos) {
+void read_garbage(std::string &asm_line, size_t &pos) {
     while (true) {
         char c = asm_line.at(pos);
         if (c != ' ' && c != '\t' && c != ',' && c != '(' && c != ')' && c != '\r' && c != '\n') {

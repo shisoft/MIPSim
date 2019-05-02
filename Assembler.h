@@ -22,7 +22,7 @@ public:
 operation read_op(std::string &asm_line, size_t &pos);
 field read_reg(std::string &asm_line, size_t &pos);
 imm read_imme(std::string &asm_line, size_t &pos);
-void read_spaces(std::string &asm_line, size_t &pos);
+void read_garbage(std::string &asm_line, size_t &pos);
 uint32_t to_instruction(std::string &code);
 
 #endif //PROJECT_3_ASSEMBLER_H
