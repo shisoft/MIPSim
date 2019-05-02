@@ -12,7 +12,7 @@ CodeMemory read_code(std::string &file) {
     while (getline(infile, line))
     {
         if (line.length() < 4) continue;
-        std::cout << "IN  < " << line;
+        std::cout << "IN  < " << line << std::endl;
         auto ins_raw = to_instruction(line);
         auto ins = Instruction(ins_raw);
         std::cout << "HEX > " << ins.as_hex() << std::endl;
