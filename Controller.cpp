@@ -152,7 +152,9 @@ bool Controller::proc_ID() {
 }
 
 void Controller::proc_IF() {
-    if (this->ctl_stall) return;
+    if (this->ctl_stall) {
+        return;
+    }
     auto npc = this->pc.get();
     auto ins = this->inst_memory.read(npc);
     this->stage_latches.ifId = IF_ID(npc, ins);
@@ -206,31 +208,39 @@ void Controller::run_cycle_mode() {
 
 void Controller::Inspect() {
     std::cout << "======================================" << std::endl;
-    std::cout << "Program Counter: " << this->pc.get() << std::endl;
-    std::cout << "Control Stall: " << this->ctl_stall << std::endl;
-    std::cout << "Clock Cycle:" << this->clock << std::endl;
+    std::cout << "Program Counter: " << std::dec << this->pc.get() << std::endl;
+    std::cout << "Control Stall: " << std::dec << this->ctl_stall << std::endl;
+    std::cout << "Clock Cycle: " << std::dec << this->clock << std::endl;
     std::cout << "------------------IF-ID---------------" << std::endl;
     auto if_id = this->stage_latches.ifId;
-    std::cout << "Ins: " << if_id.getIr().as_asm() << std::endl;
-    std::cout << "NPC: " << if_id.getNpc() << std::endl;
+    if (!if_id.getIr().is_nop()) {
+        std::cout << "Ins: " << if_id.getIr().as_asm() << std::endl;
+        std::cout << "NPC: " << std::dec << if_id.getNpc() << std::endl;
+    }
     std::cout << "------------------ID-EX---------------" << std::endl;
     auto id_ex = this->stage_latches.idEx;
-    std::cout << "Ins: " << id_ex.getIr().as_asm() << std::endl;
-    std::cout << "NPC: " << id_ex.getNpc() << std::endl;
-    std::cout << "A: 0x" << std::hex << id_ex.getA() << std::endl;
-    std::cout << "B: 0x" << std::hex << id_ex.getB() << std::endl;
-    std::cout << "I: 0x" << std::hex << id_ex.getImm() << std::endl;
+    if (!id_ex.getIr().is_nop()) {
+        std::cout << "Ins: " << id_ex.getIr().as_asm() << std::endl;
+        std::cout << "NPC: " << std::dec << id_ex.getNpc() << std::endl;
+        std::cout << "A: 0x" << std::hex << id_ex.getA() << std::endl;
+        std::cout << "B: 0x" << std::hex << id_ex.getB() << std::endl;
+        std::cout << "I: 0x" << std::hex << id_ex.getImm() << std::endl;
+    }
     std::cout << "-----------------EX-MEM---------------" << std::endl;
     auto ex_mem = this->stage_latches.exMem;
-    std::cout << "Ins: " << ex_mem.getIr().as_asm() << std::endl;
-    std::cout << "ALU: 0x" << std::hex << ex_mem.getAluOut() << std::endl;
-    std::cout << "COND 0x:" << std::hex << ex_mem.getCond() << std::endl;
-    std::cout << "B: 0x" << std::hex << ex_mem.getB() << std::endl;
+    if (!ex_mem.getIr().is_nop()) {
+        std::cout << "Ins: " << std::dec << ex_mem.getIr().as_asm() << std::endl;
+        std::cout << "ALU: 0x" << std::hex << ex_mem.getAluOut() << std::endl;
+        std::cout << "COND 0x:" << std::hex << ex_mem.getCond() << std::endl;
+        std::cout << "B: 0x" << std::hex << ex_mem.getB() << std::endl;
+    }
     std::cout << "----------------MEM-WB---------------" << std::endl;
     auto mem_wb = this->stage_latches.memWb;
-    std::cout << "Ins: " << mem_wb.getIr().as_asm() << std::endl;
-    std::cout << "ALU: 0x" << std::hex << mem_wb.getAluOut() << std::endl;
-    std::cout << "LMD: 0x" << std::hex << mem_wb.getLmd() << std::endl;
+    if (!mem_wb.getIr().is_nop()) {
+        std::cout << "Ins: " << std::dec << mem_wb.getIr().as_asm() << std::endl;
+        std::cout << "ALU: 0x" << std::hex << mem_wb.getAluOut() << std::endl;
+        std::cout << "LMD: 0x" << std::hex << mem_wb.getLmd() << std::endl;
+    }
     std::cout << "======================================" << std::endl;
 }
 
