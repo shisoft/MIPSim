@@ -15,7 +15,7 @@ alu_res ALU::compute(reg_dat a, reg_dat b, Op op) {
         case ALU_SUB:
             return a - b;
         case ALU_MUL:
-            return a * b;
+            return (uint64_t) a * (uint64_t) b;
         case ALU_SLT:
             return a < b;
         case ALU_NOR:
