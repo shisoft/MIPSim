@@ -159,40 +159,35 @@ uint32_t to_instruction(std::string &code) {
     uint32_t funct_code = op.funct;
     uint32_t ins = op_code << 26u | funct_code;
     switch (op_code) {
-        case LUI:
-        {
+        case LUI: {
             uint32_t t = read_reg(code, cursor);
             uint32_t i = read_imme(code, cursor);
             ins = ins | t << 16u | i;
             break;
         }
         case SW:
-        case LW:
-        {
+        case LW: {
             uint32_t t = read_reg(code, cursor);
             uint32_t offset = read_imme(code, cursor);
             uint32_t s = read_reg(code, cursor);
             ins = ins | s << 21u | t << 16u | offset;
             break;
         }
-        case 0:
-        {
+        case 0: {
             uint32_t d = read_reg(code, cursor);
             uint32_t s = read_reg(code, cursor);
             uint32_t t = read_reg(code, cursor);
             ins = ins | s << 21u | t << 16u | d << 11u;
             break;
         }
-        case BEQ:
-        {
+        case BEQ: {
             uint32_t s = read_reg(code, cursor);
             uint32_t t = read_reg(code, cursor);
             uint32_t i = read_imme(code, cursor);
             ins = ins | s << 21u | t << 16u | i;
             break;
         }
-        default:
-        {
+        default: {
             uint32_t t = read_reg(code, cursor);
             uint32_t s = read_reg(code, cursor);
             uint32_t i = read_imme(code, cursor);

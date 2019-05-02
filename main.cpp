@@ -2,8 +2,8 @@
 #include "CodeReader.h"
 #include "Controller.h"
 
-int main(int argc, char* argv[]) {
-    std::cout << "UMass Amherst ECE 697CE Project 3" << std::endl;
+int main(int argc, char *argv[]) {
+    std::cout << "UMass Amherst ECE 697CE Project 3 - Hao Shi" << std::endl;
     if (argc < 1) {
         std::cout << "Usage:" << argv[0] << " <Code File Name>" << std::endl;
         exit(1);

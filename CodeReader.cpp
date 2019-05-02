@@ -9,8 +9,7 @@ CodeMemory read_code(std::string &file) {
     Memory memory = Memory();
     std::ifstream infile(file);
     std::string line;
-    while (getline(infile, line))
-    {
+    while (getline(infile, line)) {
         if (line.length() < 4) continue;
         std::cout << "IN  < " << line << std::endl;
         auto ins_raw = to_instruction(line);
@@ -24,5 +23,5 @@ CodeMemory read_code(std::string &file) {
     if (index == 0) {
         std::cout << "<NOTHING TO READ>" << std::endl;
     }
-    return CodeMemory{ memory, index };
+    return CodeMemory{memory, index};
 }

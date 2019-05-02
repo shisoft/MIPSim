@@ -17,7 +17,9 @@ typedef uint32_t inst_len;
 class Controller {
 public:
     void run_inst_mode();
+
     void run_cycle_mode();
+
     void run_burst_mode();
 
     bool ended();
@@ -55,6 +57,7 @@ private:
     Instruction next_step();
 
     void Inspect();
+
     void InspectRegisters();
 
     void inspect_and_wait();

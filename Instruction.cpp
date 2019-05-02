@@ -110,13 +110,16 @@ std::string Instruction::as_asm() const {
                 break;
             case SW:
             case LW:
-                stream << " " << reg_name(this->rt()) << " 0x" << std::hex << this->imme()  << " " << reg_name(this->rs());
+                stream << " " << reg_name(this->rt()) << " 0x" << std::hex << this->imme() << " "
+                       << reg_name(this->rs());
                 break;
             case BEQ:
-                stream << " " << reg_name(this->rs()) << " " << reg_name(this->rt()) << " 0x" << std::hex << this->imme();
+                stream << " " << reg_name(this->rs()) << " " << reg_name(this->rt()) << " 0x" << std::hex
+                       << this->imme();
                 break;
             default:
-                stream << " " << reg_name(this->rt()) << " " << reg_name(this->rs()) << " 0x" << std::hex << this->imme();
+                stream << " " << reg_name(this->rt()) << " " << reg_name(this->rs()) << " 0x" << std::hex
+                       << this->imme();
                 break;
         }
     } else {
