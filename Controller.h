@@ -52,7 +52,8 @@ private:
 
     Instruction next_step();
 
-    bool Inspect();
+    void Inspect();
+    void InspectRegisters();
 };
 
 

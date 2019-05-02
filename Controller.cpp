@@ -30,8 +30,8 @@ bool Controller::has_data_hazard(reg_num reg) {
 }
 
 Instruction Controller::proc_WB() {
-    auto latch = this->stage_latches.memWb;
-    auto ins = latch.getIr();
+    auto latch = &this->stage_latches.memWb;
+    auto ins = latch->getIr();
     if (ins.is_nop()) return {NOP_INST};
     auto target = ins.dest_reg();
     auto dat_write = 0;
@@ -40,10 +40,10 @@ Instruction Controller::proc_WB() {
             // do nothing
             return ins;
         case LW:
-            dat_write = latch.getLmd();
+            dat_write = latch->getLmd();
             break;
         default:
-            alu_res alu_res = latch.getAluOut();
+            alu_res alu_res = latch->getAluOut();
             // extract the least significant 32 bits of the 64 bit ALU result
             reg_dat reg_1_res = alu_res_to_dat(alu_res);
             // assign to the register
@@ -57,15 +57,15 @@ Instruction Controller::proc_WB() {
             break;
     }
     this->registerFile.write_reg(target, dat_write);
-    latch.set_nop();
+    latch->set_nop();
     return ins;
 }
 
 void Controller::proc_MEM() {
-    auto latch = this->stage_latches.exMem;
-    auto ins = latch.getIr();
+    auto latch = &this->stage_latches.exMem;
+    auto ins = latch->getIr();
     if (ins.is_nop()) return;
-    auto alu_res = latch.getAluOut();
+    auto alu_res = latch->getAluOut();
     auto alu_res_dat = alu_res_to_dat(alu_res);
     auto mem_res = 0;
     switch (ins.op()) {
@@ -75,50 +75,50 @@ void Controller::proc_MEM() {
             break;
         case SW:
             // Save Word, should write data into memory
-            this->data_memory.write(alu_res_dat, latch.getB());
+            this->data_memory.write(alu_res_dat, latch->getB());
             break;
         case BEQ:
             // Branch EQual, when ALU result == 0 which indicates equal, should set program counter to cond in latch
-            if (alu_res == 0) this->pc.set(latch.getCond());
+            if (alu_res == 0) this->pc.set(latch->getCond());
             // unset the control stall flag, so the IF stage will be enabled in next cycle
             this->ctl_stall = false;
             break;
     }
     this->stage_latches.memWb = MEM_WB(mem_res, alu_res, ins);
-    latch.set_nop();
+    latch->set_nop();
 }
 
 void Controller::proc_EX() {
-    auto latch = this->stage_latches.idEx;
-    auto ins = latch.getIr();
+    auto latch = &this->stage_latches.idEx;
+    auto ins = latch->getIr();
     if (ins.is_nop()) return;
     auto ins_op = ins.op();
-    auto latch_a = latch.getA();
-    auto latch_b = latch.getB();
+    auto latch_a = latch->getA();
+    auto latch_b = latch->getB();
     auto alu_a = latch_a;
     auto alu_b = 0;
     // determinate ALU B by instructions
     if (ins_op == LUI) {
-        alu_a = latch.getImm();
+        alu_a = latch->getImm();
         alu_b = 16;
     } else if (ins.is_imm()) {
-        alu_b = latch.getImm();
+        alu_b = latch->getImm();
     } else {
         alu_b = latch_b;
     }
     auto alu_op = this->alu_ctl.decode(ins);
     auto alu_out = this->alu.compute(alu_a, alu_b, alu_op);
-    auto cond = latch.getNpc() + latch.getImm();
+    auto cond = latch->getNpc() + latch->getImm();
     // special case for branch, we don't multiply the imm by 4 because the
     // instruction memory line is exactly 32 bit, 4 bytes
-    this->stage_latches.exMem = EX_MEM(cond, alu_out, latch.getB(), ins);
-    latch.set_nop();
+    this->stage_latches.exMem = EX_MEM(cond, alu_out, latch->getB(), ins);
+    latch->set_nop();
 }
 
 bool Controller::proc_ID() {
     if (this->ctl_stall) return false;
-    auto latch = this->stage_latches.ifId;
-    auto ins = latch.getIr();
+    auto latch = &this->stage_latches.ifId;
+    auto ins = latch->getIr();
     // return true when nop, this will force PC to increase in IF stage and reach inst_len sooner or later
     if (ins.is_nop()) return true;
     auto reg_a = ins.rs();
@@ -143,11 +143,11 @@ bool Controller::proc_ID() {
     }
     if (reg_a != 0 && this->has_data_hazard(reg_a)) return false;
     auto dat_a = this->registerFile.read_reg(reg_a);
-    this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch.getNpc(), ins);
+    this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch->getNpc(), ins);
     if (ins.op() == BEQ) {
         this->ctl_stall = true;
     }
-    latch.set_nop();
+    latch->set_nop();
     return true;
 }
 
@@ -185,12 +185,15 @@ Controller::Controller(const Memory &instMemory, inst_len len) {
 
 void Controller::run_inst_mode() {
     while (!this->ended()) {
-        while (true) {
-            auto wb_ins = this->next_step();
-            if (!wb_ins.is_nop()) {
-                std::cout << "Run: " << wb_ins.as_asm() << std::endl;
-                this->Inspect();
-                break;
+        auto wb_ins = this->next_step();
+        if (!wb_ins.is_nop()) {
+            std::cout << "Have run: " << wb_ins.as_asm() << std::endl;
+            this->Inspect();
+            std::cout << "PRESS ANY KEY TO CONTINUE, 'R' FOR REGISTERS...";
+            char key;
+            std::cin >> key;
+            if (std::tolower(key) == 'r') {
+                this->InspectRegisters();
             }
         }
     }
@@ -201,41 +204,39 @@ void Controller::run_cycle_mode() {
 
 }
 
-bool Controller::Inspect() {
+void Controller::Inspect() {
     std::cout << "======================================" << std::endl;
     std::cout << "Program Counter: " << this->pc.get() << std::endl;
     std::cout << "Control Stall: " << this->ctl_stall << std::endl;
     std::cout << "Clock Cycle:" << this->clock << std::endl;
     std::cout << "------------------IF-ID---------------" << std::endl;
     auto if_id = this->stage_latches.ifId;
-    std::cout << "Ins:" << if_id.getIr().as_asm() << std::endl;
-    std::cout << "NPC:" << if_id.getNpc() << std::endl;
+    std::cout << "Ins: " << if_id.getIr().as_asm() << std::endl;
+    std::cout << "NPC: " << if_id.getNpc() << std::endl;
     std::cout << "------------------ID-EX---------------" << std::endl;
     auto id_ex = this->stage_latches.idEx;
-    std::cout << "Ins:" << id_ex.getIr().as_asm() << std::endl;
-    std::cout << "NPC:" << id_ex.getNpc() << std::endl;
+    std::cout << "Ins: " << id_ex.getIr().as_asm() << std::endl;
+    std::cout << "NPC: " << id_ex.getNpc() << std::endl;
     std::cout << "A: 0x" << std::hex << id_ex.getA() << std::endl;
     std::cout << "B: 0x" << std::hex << id_ex.getB() << std::endl;
     std::cout << "I: 0x" << std::hex << id_ex.getImm() << std::endl;
     std::cout << "-----------------EX-MEM---------------" << std::endl;
     auto ex_mem = this->stage_latches.exMem;
-    std::cout << "Ins:" << ex_mem.getIr().as_asm() << std::endl;
+    std::cout << "Ins: " << ex_mem.getIr().as_asm() << std::endl;
     std::cout << "ALU: 0x" << std::hex << ex_mem.getAluOut() << std::endl;
     std::cout << "COND 0x:" << std::hex << ex_mem.getCond() << std::endl;
     std::cout << "B: 0x" << std::hex << ex_mem.getB() << std::endl;
     std::cout << "----------------MEM-WB---------------" << std::endl;
     auto mem_wb = this->stage_latches.memWb;
-    std::cout << "Ins:" << mem_wb.getIr().as_asm() << std::endl;
+    std::cout << "Ins: " << mem_wb.getIr().as_asm() << std::endl;
     std::cout << "ALU: 0x" << std::hex << mem_wb.getAluOut() << std::endl;
     std::cout << "LMD: 0x" << std::hex << mem_wb.getLmd() << std::endl;
     std::cout << "======================================" << std::endl;
-    std::cout << "PRESS ANY TO CONTINUE OR 'R' FOR REGISTERS..." << std::endl;
-    if (std::tolower(std::cin.get()) == 'r') {
-        for (field i = 0; i < 32; i++) {
-            std::cout << reg_name(i) << ": 0x" << std::hex << this->registerFile.read_reg(i) << std::endl;
-        }
-        return true;
+}
+
+void Controller::InspectRegisters() {
+    for (field i = 0; i < 32; i++) {
+        std::cout << reg_name(i) << ": 0x" << std::hex << this->registerFile.read_reg(i) << std::endl;
     }
-    return false;
 }
 
