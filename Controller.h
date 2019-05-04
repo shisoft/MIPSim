@@ -56,9 +56,11 @@ private:
 
     Instruction next_step();
 
-    void Inspect();
+    void InspectLatches();
 
     void InspectRegisters();
+
+    void DumpMempry();
 
     void inspect_and_wait();
 

@@ -194,7 +194,7 @@ Controller::Controller(const Memory &instMemory, inst_len len) {
 }
 
 void Controller::inspect_and_wait() {
-    this->Inspect();
+    this->InspectLatches();
     std::cout << "'R' for registers and continue, anything else to continue...";
     char key;
     std::cin >> key;
@@ -211,6 +211,7 @@ void Controller::run_inst_mode() {
             this->inspect_and_wait();
         }
     }
+    this->DumpMempry();
 }
 
 void Controller::run_cycle_mode() {
@@ -218,9 +219,10 @@ void Controller::run_cycle_mode() {
         this->next_step();
         this->inspect_and_wait();
     }
+    this->DumpMempry();
 }
 
-void Controller::Inspect() {
+void Controller::InspectLatches() {
     std::cout << "======================================" << std::endl;
     std::cout << "Program Counter: " << std::dec << this->pc.get() << std::endl;
     std::cout << "Control Stall: " << std::dec << this->ctl_stall << std::endl;
@@ -281,7 +283,19 @@ void Controller::run_burst_mode() {
     while (!this->ended()) {
         this->next_step();
     }
-    this->Inspect();
+    this->InspectLatches();
     this->InspectRegisters();
+    this->DumpMempry();
+}
+
+void Controller::DumpMempry() {
+    std::cout << "MEMORY DUMP: " << std::endl;
+    for (auto i = 0; i < MEM_BYTES; i++) {
+        std::cout << std::dec << i << ": " << std::hex << this->data_memory.read(i) << "\t\t\t";
+        if ((i + 1) % 8 == 0) {
+            std::cout << std::endl;
+        }
+    }
+    std::cout << std::endl;
 }
 

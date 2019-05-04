@@ -6,11 +6,14 @@
 #define PROJECT_3_MEMORY_H
 
 #include <cstdint>
+#include <cstdio>
 #include "wires.h"
+
+const size_t MEM_BYTES = 512;
 
 class Memory {
 private:
-    line mem[512] = {0}; // 2 kbytes
+    line mem[MEM_BYTES] = {0}; // 2 kbytes
 public:
     line read(addr address);
 
