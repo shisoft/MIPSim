@@ -60,7 +60,7 @@ private:
 
     void InspectRegisters();
 
-    void DumpMempry();
+    void DumpMemory();
 
     void inspect_and_wait();
 

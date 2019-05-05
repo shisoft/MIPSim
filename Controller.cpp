@@ -211,7 +211,7 @@ void Controller::run_inst_mode() {
             this->inspect_and_wait();
         }
     }
-    this->DumpMempry();
+    this->DumpMemory();
 }
 
 void Controller::run_cycle_mode() {
@@ -219,7 +219,7 @@ void Controller::run_cycle_mode() {
         this->next_step();
         this->inspect_and_wait();
     }
-    this->DumpMempry();
+    this->DumpMemory();
 }
 
 void Controller::InspectLatches() {
@@ -285,10 +285,10 @@ void Controller::run_burst_mode() {
     }
     this->InspectLatches();
     this->InspectRegisters();
-    this->DumpMempry();
+    this->DumpMemory();
 }
 
-void Controller::DumpMempry() {
+void Controller::DumpMemory() {
     std::cout << "MEMORY DUMP: " << std::endl;
     for (auto i = 0; i < MEM_BYTES; i++) {
         std::cout << std::dec << i << ": " << std::hex << this->data_memory.read(i) << "\t\t\t";
