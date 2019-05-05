@@ -15,8 +15,11 @@ int main(int argc, char *argv[]) {
     while (true) {
         std::cout << "Select mode: 1 - Instruction, 2 - Cycle, 3 - Burst: ";
         int mode;
+        int lines;
         std::cin >> mode;
-        Controller ctl = Controller(code_mem.memory, code_mem.bound);
+        std::cout << "How many lines of code do you want to run? 0 for all of them: ";
+        std::cin >> lines;
+        Controller ctl = Controller(code_mem.memory, lines == 0 ? code_mem.bound : lines);
         switch (mode) {
             case 1:
                 std::cout << "Running in Instruction mode" << std::endl;

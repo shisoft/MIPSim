@@ -159,7 +159,7 @@ bool Controller::proc_ID() {
 }
 
 void Controller::proc_IF() {
-    if (this->ctl_stall) {
+    if (this->ctl_stall || this->pc.get() >= this->inst_length) {
         return;
     }
     auto npc = this->pc.get();
