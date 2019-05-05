@@ -89,6 +89,7 @@ void MEM_WB::set_nop() {
 bool StageLatches::check_reg_data_hazard(reg_num reg, Instruction ins) {
     if (ins.op() == BEQ) return false;
     auto target = ins.dest_reg();
+    if (ins.op() == 0 && ins.funt() == MUL && target != 0 && target + 1 == reg) return false;
     return target != 0 && target == reg;
 }
 
