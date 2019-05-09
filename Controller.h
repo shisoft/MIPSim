@@ -41,6 +41,12 @@ private:
     inst_len inst_length;
     bool ctl_stall; // stall due to control hazard
 
+    uint32_t IF_hit;
+    uint32_t ID_hit;
+    uint32_t EX_hit;
+    uint32_t MEM_hit;
+    uint32_t WB_hit;
+
     Instruction proc_WB();
 
     void proc_MEM();

@@ -58,9 +58,12 @@ Instruction Controller::proc_WB() {
             }
             break;
     }
-    if (target != 0) this->registerFile.write_reg(target, dat_write);
+    if (target != 0) {
+        this->registerFile.write_reg(target, dat_write);
+        this->cycle_utilized();
+        this->WB_hit++;
+    }
     latch->set_nop();
-    this->cycle_utilized();
     return ins;
 }
 
@@ -71,6 +74,7 @@ void Controller::proc_MEM() {
     auto alu_res = latch->getAluOut();
     auto alu_res_dat = alu_res_to_dat(alu_res);
     auto mem_res = 0;
+    auto utlized = true;
     switch (ins.op()) {
         case LW:
             // Load Word, should load data into the latch
@@ -86,10 +90,16 @@ void Controller::proc_MEM() {
             // unset the control stall flag, so the IF stage will be enabled in next cycle
             this->ctl_stall = false;
             break;
+        default:
+            utlized = false;
+            break;
+    }
+    if (utlized) {
+        this->cycle_utilized();
+        this->MEM_hit++;
     }
     this->stage_latches.memWb = MEM_WB(mem_res, alu_res, ins);
     latch->set_nop();
-    this->cycle_utilized();
 }
 
 void Controller::proc_EX() {
@@ -118,6 +128,7 @@ void Controller::proc_EX() {
     this->stage_latches.exMem = EX_MEM(cond, alu_out, latch->getB(), ins);
     latch->set_nop();
     this->cycle_utilized();
+    this->EX_hit++;
 }
 
 bool Controller::proc_ID() {
@@ -150,11 +161,11 @@ bool Controller::proc_ID() {
     auto dat_a = this->registerFile.read_reg(reg_a);
     if (ins.op() == BEQ) {
         this->ctl_stall = true;
-        std::cout << "BEQ have A" << dat_a << " B: " << dat_b << std::endl;
     }
     this->stage_latches.idEx = ID_EX(dat_a, dat_b, dat_imm, latch->getNpc(), ins);
     latch->set_nop();
     this->cycle_utilized();
+    this->ID_hit++;
     return true;
 }
 
@@ -167,6 +178,7 @@ void Controller::proc_IF() {
     this->stage_latches.ifId = IF_ID(npc, ins);
     this->pc.next();
     this->cycle_utilized();
+    this->IF_hit++;
 }
 
 cycles Controller::clock_cycles() {
@@ -227,7 +239,12 @@ void Controller::InspectLatches() {
     std::cout << "Program Counter: " << std::dec << this->pc.get() << " * 4" << std::endl;
     std::cout << "Control Stall: " << std::dec << this->ctl_stall << std::endl;
     std::cout << "Clock Cycle: " << std::dec << this->clock << std::endl;
-    std::cout << "Efficiency: " << std::dec << 100 * this->utilized / (this->clock * 5) << "%" << std::endl;
+    std::cout << "Overall Utilization: " << std::dec << (float) 100 * (float) this->utilized / ((float) this->clock * 5) << "%" << std::endl;
+    std::cout << "IF Utilization: " << std::dec << (float) 100 * (float) this->IF_hit / (float) this->clock << "%" << std::endl;
+    std::cout << "ID Utilization: " << std::dec << (float) 100 * (float) this->ID_hit / (float) this->clock << "%" << std::endl;
+    std::cout << "EX Utilization: " << std::dec << (float) 100 * (float) this->EX_hit / (float) this->clock << "%" << std::endl;
+    std::cout << "MEM Utilization: " << std::dec << (float) 100 * (float) this->MEM_hit / (float) this->clock << "%" << std::endl;
+    std::cout << "WB Utilization: " << std::dec << (float) 100 * (float) this->WB_hit / (float) this->clock << "%" << std::endl;
     std::cout << "------------------IF-ID---------------" << std::endl;
     auto if_id = this->stage_latches.ifId;
     if (!if_id.getIr().is_nop()) {
