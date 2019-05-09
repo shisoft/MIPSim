@@ -224,7 +224,7 @@ void Controller::run_cycle_mode() {
 
 void Controller::InspectLatches() {
     std::cout << "======================================" << std::endl;
-    std::cout << "Program Counter: " << std::dec << this->pc.get() << std::endl;
+    std::cout << "Program Counter: " << std::dec << this->pc.get() << " * 4" << std::endl;
     std::cout << "Control Stall: " << std::dec << this->ctl_stall << std::endl;
     std::cout << "Clock Cycle: " << std::dec << this->clock << std::endl;
     std::cout << "Efficiency: " << std::dec << 100 * this->utilized / (this->clock * 5) << "%" << std::endl;
