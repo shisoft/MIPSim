@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <cctype>
 #include "Assembler.h"
 #include "Instruction.h"
 #include "format.h"
@@ -12,7 +13,7 @@
 operation read_op(std::string &asm_line, size_t &pos) {
     read_garbage(asm_line, pos);
     std::stringstream stream;
-    while (true) {
+    while (pos < asm_line.length()) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
             stream << (char) std::tolower(c);
@@ -70,7 +71,7 @@ field read_reg(std::string &asm_line, size_t &pos) {
                         asm_line.at(pos)));
     }
     pos++;
-    while (true) {
+    while (pos < asm_line.length()) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
             stream << (char) std::tolower(c);
@@ -128,7 +129,7 @@ imm read_imme(std::string &asm_line, size_t &pos) {
                         asm_line.at(pos + 1)));
     }
     pos += 2;
-    while (true) {
+    while (pos < asm_line.length()) {
         char c = asm_line.at(pos);
         if ((c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f') || (c >= '0' && c <= '9')) {
             stream << (char) std::tolower(c);
@@ -143,7 +144,7 @@ imm read_imme(std::string &asm_line, size_t &pos) {
 }
 
 void read_garbage(std::string &asm_line, size_t &pos) {
-    while (true) {
+    while (pos < asm_line.length()) {
         char c = asm_line.at(pos);
         if (c != ' ' && c != '\t' && c != ',' && c != '(' && c != ')' && c != '\r' && c != '\n') {
             return;

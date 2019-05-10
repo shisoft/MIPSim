@@ -1,10 +1,11 @@
 #include <iostream>
+#include <cctype>
 #include "CodeReader.h"
 #include "Controller.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "UMass Amherst ECE 697CE Project 3 - Hao Shi" << std::endl;
-    if (argc < 1) {
+    if (argc < 2) {
         std::cout << "Usage:" << argv[0] << " <Code File Name>" << std::endl;
         exit(1);
     }

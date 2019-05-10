@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cctype>
 #include "Controller.h"
 #include "SignExt.h"
 

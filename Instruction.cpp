@@ -4,6 +4,8 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
+#include <bitset>
 #include "Instruction.h"
 #include "format.h"
 
@@ -161,17 +163,37 @@ std::string reg_name(field reg) {
             return "$zero";
         case 1:
             return "$at";
-        case 2 ... 3:
+		case 2:
+		case 3:
             return string_format("$v%d", reg - 2);
-        case 4 ... 7:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
             return string_format("$a%d", reg - 4);
-        case 8 ... 15:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
             return string_format("$t%d", reg - 8);
-        case 16 ... 23:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
             return string_format("$s%d", reg - 16);
-        case 24 ... 25:
+		case 24:
+		case 25:
             return string_format("$t%d", reg - 24 + 8);
-        case 26 ... 27:
+		case 26:
+		case 27:
             return string_format("$k%d", reg - 26);
         case 28:
             return "$gp";
